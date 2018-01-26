@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>nccu</title>
+	<link rel="stylesheet" href="">
+	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+       		<a-asset-item id="shelf" src="model/bookcase.dae"></a-asset-item>
+       		<a-asset-item id="bedroom" src="model/bedroom.dae"></a-asset-item>
+      	</a-assets>
+		
+		<a-collada-model src="#bedroom"></a-collada-model>
+
+		<a-camera camera="userHeight: 1.6" look-controls> 
+	        <a-cursor >
+	          <!-- <a-plane scale="1 0.5 1" color="green" position="0 0.3 0"></a-plane>
+	          <a-plane scale="2.357 0.2 1" color="yellow" position="0 -0.817 -0.321"></a-plane> -->
+	    	</a-cursor>
+	    </a-camera>
+	</a-scene>
+</body>
+</html>

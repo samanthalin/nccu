@@ -10,16 +10,19 @@
 <body>
 	<a-scene light="defaultLightsEnabled: false">
 		<a-assets>
-			<a-asset-item id="desert" src="bg/desert.jpg"></a-asset-item>
+			<img id="desert" src="bg/desert.jpg">
        		<a-asset-item id="shelf" src="model/bookcase.dae"></a-asset-item>
        		<a-asset-item id="bedroom" src="model/bedroom.dae"></a-asset-item>
+       		<a-asset-item id="bow" src="model/arrow.dae"></a-asset-item>
       	</a-assets>
 		
 		<a-collada-model src="#bedroom"></a-collada-model>
-		<a-collada-model src="#shelf"></a-collada-model>
-
+		<a-collada-model src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae"></a-collada-model>
+		<a-collada-model src="#bow" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-collada-model>
+		
+		<a-sky src="#desert"></a-sky>
 		<a-camera camera="userHeight: 1.6" look-controls> 
-	        
+	        <a-cursor></a-cursor>
 	    </a-camera>
 	</a-scene>
 

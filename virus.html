@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>nccu</title>
+	<link rel="stylesheet" href="">
+	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+<body>
+	<a-scene light="defaultLightsEnabled: false">
+		<a-assets>
+			<img id="virus" src="bg/virus.jpg">
+			<a-asset-item id="virus" src="model/virus.dae"></a-asset-item>
+      	</a-assets>
+		
+		<a-sky src="#virus"></a-sky>
+		<a-collada-model src="#virus"></a-collada-model>
+		<a-camera camera="userHeight: 1.6" look-controls> 
+	        <a-cursor></a-cursor>
+	    </a-camera>
+	</a-scene>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>nccu</title>
+	<link rel="stylesheet" href="">
+	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+<body>
+	<a-scene light="defaultLightsEnabled: false">
+		<a-assets>
+			<img id="topfloor" src="bg/topfloor.jpg">
+			<a-asset-item id="np" src="model/np.dae"></a-asset-item>
+      	</a-assets>
+		
+		<a-collada-model src="#np"></a-collada-model>
+
+		<a-camera look-controls="" position="-4.509 1.842 1.228" rotation="-21.772396214971305 -69.95814678547347 0" wasd-controls="" data-aframe-inspector-original-camera=""> 
+	        <a-cursor raycaster="" cursor=""></a-cursor>
+	    </a-camera> 
+	</a-scene>
+
+</body>
+</html>

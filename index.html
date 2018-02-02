@@ -3,28 +3,67 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="apple-mobile-web-app-capable">
 	<title>nccu</title>
 	<link rel="stylesheet" href="">
 	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+	<script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+	<script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
 </head>
 <body>
-	<a-scene light="defaultLightsEnabled: false">
+	<script type="text/javascript">
+		AFRAME.registerComponent('room', {
+			init : function(){
+        var wallpaper = document.getElementById('wallpaper'),
+        		message1 = document.getElementById("message1"),
+        		message2 = document.getElementById("message2"),
+        		newMessageIcon = document.getElementById("new-message-icon"),
+        		video1 = document.getElementById("video1");
+        setTimeout(function(){
+        	wallpaper.setAttribute("visible", true);
+        }, 10000);
+
+        message1.addEventListener("click",function(){
+        	this.setAttribute("visible",false);
+        	message2.setAttribute("visible", true);
+        	newMessageIcon.setAttribute("visible",true);
+        })
+        newMessageIcon.addEventListener("click",function(){
+        	this.setAttribute("visible",false);
+        	message2.setAttribute("visible",false);
+        	video1.setAttribute("visible",true);
+        })
+			}
+		})
+	</script>
+	<a-scene room light="defaultLightsEnabled: false">
 		<a-assets>
 			<img id="desert" src="bg/desert.jpg">
-       		<a-asset-item id="shelf" src="model/bookcase.dae"></a-asset-item>
-       		<a-asset-item id="bedroom" src="model/bedroom.dae"></a-asset-item>
-       		<a-asset-item id="bow" src="model/arrow.dae"></a-asset-item>
-      	</a-assets>
-		
+			<img id="message-box" src="img/message-box.png">
+			<img id="new-message" src="img/new-message.jpg">
+      <a-asset-item id="shelf" src="model/bookcase.dae"></a-asset-item>
+      <a-asset-item id="bedroom" src="model/bedroom.dae"></a-asset-item>
+      <a-asset-item id="bow" src="model/arrow.dae"></a-asset-item>
+      <video id="video" autoplay="true" loop="true" src="video/video.mp4" webkit-playsinline></video>
+    </a-assets>
+
 		<a-collada-model src="#bedroom"></a-collada-model>
+
 		<a-collada-model src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae"></a-collada-model>
 		<a-collada-model src="#bow" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-collada-model>
-		
+
+		<a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="src: #message-box" geometry="height: 0.5; primitive: plane" visible="false" id="wallpaper">
+			<a-entity id="message1" text-geometry="value:What's up !!!" position="1.196 -0.19 0.024" rotation="2.1199438419840457 175.78345154613658 1.8907607239317168" scale="0.625 0.673 1"></a-entity>
+			<a-entity id="message2" text-geometry="value: New message recieved." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false"></a-entity>
+			<a-entity id="new-message-icon" material="src: #new-message"  position="-0.367 -0.515 0.004" geometry="primitive:plane;height:0.5" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false"></a-entity>
+			<a-entity id="video" material="src: #new-message"  position="-0.367 -0.515 0.004" geometry="primitive:plane;height:0.5" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false"></a-entity>
+			<a-video id="video1" position="-0.303 -0.251 0.462" src="#video" width="16" height="9" scale="0.209 0.217 1" visible="false"></a-video>
+		</a-entity>
+
 		<a-sky src="#desert"></a-sky>
 		<a-camera camera="userHeight: 1.6" look-controls> 
 	        <a-cursor></a-cursor>
 	    </a-camera>
 	</a-scene>
-
 </body>
 </html>

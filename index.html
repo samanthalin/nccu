@@ -9,16 +9,30 @@
 	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
 	<script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
 	<script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+	<script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script> 
+  <script src="https://unpkg.com/super-hands/dist/super-hands.js"></script>
+  <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.js"></script>
+  <script src="https://dist.3d.io/3dio-js/1.x.x/3dio.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+  <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+  </head>
 </head>
 <body>
 	<script type="text/javascript">
+		// registerAframeClickDragComponent(window.AFRAME);
 		AFRAME.registerComponent('room', {
 			init : function(){
         var wallpaper = document.getElementById('wallpaper'),
         		message1 = document.getElementById("message1"),
         		message2 = document.getElementById("message2"),
+        		message3 = document.getElementById("message3"),
         		newMessageIcon = document.getElementById("new-message-icon"),
-        		video1 = document.getElementById("video1");
+        		replayBtn = document.getElementById("replay-message"),
+        		player = document.getElementById("video1"),
+        		video = document.getElementById("video"),
+        		audio = document.getElementById("ding");
         setTimeout(function(){
         	wallpaper.setAttribute("visible", true);
         }, 10000);
@@ -26,46 +40,64 @@
         message1.addEventListener("click",function(){
         	this.setAttribute("visible",false);
         	message2.setAttribute("visible", true);
-        	newMessageIcon.setAttribute("visible",true);
+        	audio.play();
         })
+        video.onended = function(){
+      		video1.setAttribute("visible",false);
+      		message3.setAttribute("visible",true);
+      	}
         newMessageIcon.addEventListener("click",function(){
-        	this.setAttribute("visible",false);
         	message2.setAttribute("visible",false);
         	video1.setAttribute("visible",true);
+        	video.play();
+        })
+        replayBtn.addEventListener("click",function(){
+        	message3.setAttribute("visible",false);
+        	video1.setAttribute("visible",true);
+        	video.play();
         })
 			}
 		})
 	</script>
-	<a-scene room light="defaultLightsEnabled: false">
+	<a-scene physics room light="defaultLightsEnabled: false">
 		<a-assets>
 			<img id="desert" src="bg/desert.jpg">
 			<img id="message-box" src="img/message-box.png">
 			<img id="new-message" src="img/new-message.jpg">
+			<img id="replay-btn" src="img/replay.png">
       <a-asset-item id="shelf" src="model/bookcase.dae"></a-asset-item>
       <a-asset-item id="bedroom" src="model/bedroom.dae"></a-asset-item>
       <a-asset-item id="bow" src="model/arrow.dae"></a-asset-item>
       <a-asset-item id="book" src="model/book.dae"></a-asset-item>
-      <video id="video" autoplay="true" loop="true" src="video/video.mp4" webkit-playsinline></video>
+      <video id="video" src="video/video.mp4" webkit-playsinline></video>
+      <audio id="ding" src="video/ding.mp3" webkit-playsinline></audio>
     </a-assets>
-
+		<a-entity id="player" progressive-controls="objects: [grabbable], [droppable], [clickable];
+                                                gazeMixin: gazer; pointMixin: pointer; touchMixin: ctrlr">
+      <a-entity id="rightHand" class="right-controller"></a-entity>
+      <a-entity id="leftHand" class="left-controller"></a-entity>
+    </a-entity>
 		<a-collada-model src="#bedroom"></a-collada-model>
-
 		<a-collada-model src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae"></a-collada-model>
 		<a-collada-model src="#bow" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-collada-model>
-		<a-collada-model src="#book" position="-0.54 0.504 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863"></a-collada-model>
+		<a-collada-model grabbable draggable dynamic-body="mass:0.1" src="#book" position="-0.54 0.504 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863"></a-collada-model>
 
 		<a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="src: #message-box" geometry="height: 0.5; primitive: plane" visible="false" id="wallpaper">
 			<a-entity id="message1" text-geometry="value:What's up !!!" position="1.196 -0.19 0.024" rotation="2.1199438419840457 175.78345154613658 1.8907607239317168" scale="0.625 0.673 1"></a-entity>
-			<a-entity id="message2" text-geometry="value: New message recieved." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false"></a-entity>
-			<a-entity id="new-message-icon" material="src: #new-message"  position="-0.367 -0.515 0.004" geometry="primitive:plane;height:0.5" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false"></a-entity>
-			<a-entity id="video" material="src: #new-message"  position="-0.367 -0.515 0.004" geometry="primitive:plane;height:0.5" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false"></a-entity>
-			<a-video id="video1" position="-0.303 -0.251 0.462" src="#video" width="16" height="9" scale="0.209 0.217 1" visible="false"></a-video>
+			<a-entity id="message2" text-geometry="value: New message recieved." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false">
+				<a-entity id="new-message-icon" material="src: #new-message"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224" ></a-entity>
+			</a-entity>
+			<a-video id="video1" position="-0.303 -0.251 0.462" src="#video" width="16" height="9" scale="0.209 0.217 1" rotation="2.0053522829578814 178.5909447422776 1.9480565034447992" visible="false"></a-video>
+			<a-entity id="message3" text-geometry="value: Replay message." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false">
+				<a-entity id="replay-message" material="src: #replay-btn"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224"></a-entity>
+			</a-entity>
+			
 		</a-entity>
 
 		<a-sky src="#desert"></a-sky>
 		<a-camera camera="userHeight: 1.6" look-controls> 
-	        <a-cursor></a-cursor>
-	    </a-camera>
+	    <a-cursor></a-cursor>
+	  </a-camera>
 	</a-scene>
 </body>
 </html>

@@ -84,8 +84,9 @@
 		</a-collada-model>
 		<a-collada-model src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae"></a-collada-model>
 		<a-collada-model src="#bow" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-collada-model>
-		<a-collada-model grabbable draggable dynamic-body="true" src="#book" position="-0.54 0.7 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863"></a-collada-model>
-
+		<a-collada-model dynamic-body grabbable draggable src="#book" position="-0.54 0.7 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863">
+      <a-box position="0.044 0.068 0.016" scale="0.075 0.131 0.026" material="opacity: 0;"></a-box>
+    </a-collada-model>
 		<a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="src: #message-box" geometry="height: 0.5; primitive: plane" visible="false" id="wallpaper">
 			<a-entity id="message1" text-geometry="value:What's up !!!" position="1.196 -0.19 0.024" rotation="2.1199438419840457 175.78345154613658 1.8907607239317168" scale="0.625 0.673 1"></a-entity>
 			<a-entity id="message2" text-geometry="value: New message recieved." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false">

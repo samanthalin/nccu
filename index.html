@@ -77,13 +77,14 @@
       <a-entity id="rightHand" class="right-controller"></a-entity>
       <a-entity id="leftHand" class="left-controller"></a-entity>
     </a-entity>
-		<a-collada-model static-body src="#bedroom">
-			<a-entity position="-0.686 0.47 0.871" rotation="-89.72519071748692 -9.91216985576324 -80.6724575544199" color="#fff" static-body  geometry="primitive:plane;height:0.5" scale="1.137 2.741 1.034" id="book-supporter">
-			</a-entity>
+		<a-collada-model src="#bedroom">
+      <a-plane static-body id="tablesupport" position="-0.685 0.412 0.736" rotation="-90 0 0" scale="0.935 1.419 1" material=""></a-plane>  
+    </a-collada-model>
+
 		</a-collada-model>
 		<a-collada-model src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae"></a-collada-model>
 		<a-collada-model src="#bow" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-collada-model>
-		<a-collada-model grabbable draggable dynamic-body="true" src="#book" position="-0.54 0.400 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863"></a-collada-model>
+		<a-collada-model grabbable draggable dynamic-body="true" src="#book" position="-0.54 0.7 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863"></a-collada-model>
 
 		<a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="src: #message-box" geometry="height: 0.5; primitive: plane" visible="false" id="wallpaper">
 			<a-entity id="message1" text-geometry="value:What's up !!!" position="1.196 -0.19 0.024" rotation="2.1199438419840457 175.78345154613658 1.8907607239317168" scale="0.625 0.673 1"></a-entity>

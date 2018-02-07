@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="apple-mobile-web-app-capable">
+		<title>nccu</title>
+		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+		<script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+		<script src="https://unpkg.com/aframe-animation-component@^3.2.0/dist/aframe-animation-component.min.js"></script>
+		<script src="js/glow.js"></script>
+	</head>
+	<body>
+		<script>
+	      AFRAME.registerComponent('shooting', {
+	        init: function () {
+	          // Solution for Creating Entities.
+	          var sceneEl = document.querySelector('a-scene'); 
+	          
+	          for (var i = 1; i < 9; i++) {
+	            
+	            var sun = document.createElement('a-entity');
+	            sun.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
+	            sun.setAttribute('material', {shader: 'flat'});
+	            // sun.setAttribute('light', {type: 'point', color: '#FFF'});
+	            sun.setAttribute('position', {x: Math.random() * 20 - 10, y: Math.random() * 20 + 2, z: Math.random() * 20 - 10});
+	            sceneEl.appendChild(sun);
+	          }
+	        }
+	      });
+	    </script>
+		<a-scene shooting>
+			<a-sky src="bg/desert.jpg"></a-sky>
+			<a-sphere glow="color: #fff10b; scale: 1.2; c: 0; p: 2" position="6.5 7 0" radius="0.5" color="#f7e26f" geometry=""></a-sphere>
+			
+			<a-camera camera="userHeight: 1.6" look-controls> 
+			    <a-cursor></a-cursor>
+			</a-camera>
+		</a-scene>
+	</body>
+</html>

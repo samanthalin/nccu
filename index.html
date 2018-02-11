@@ -5,7 +5,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="apple-mobile-web-app-capable">
 	<title>nccu</title>
-	<link rel="stylesheet" href="">
+	<!-- Bootstrap Bootswatch theme CSS - other themes available here: https://bootswatch.com -->
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Bootstrap JS Dependencies -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
 	<script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
 	<script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
@@ -18,6 +25,7 @@
  <!-- <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script> -->
   <!-- <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script> -->
   <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+  <script src="js/aframe-preloader-component.js"></script>
   </head>
 </head>
 <body>
@@ -36,11 +44,11 @@
         		audio = document.getElementById("ding"),
         		bookShelf = document.getElementById("book-shelf"),
         		secret = document.getElementById("secret"),
-        		bedroom = document.getElementById("bedroom");
+        		bedroom = document.getElementById("bedroom"),
+            bow = document.getElementById("bow"),
+            scene = this.el;
 
-        setTimeout(function(){
-        	wallpaper.setAttribute("visible", true);
-        }, 10000);
+        wallpaper.setAttribute("visible", true);
 
         message1.addEventListener("click",function(){
         	this.setAttribute("visible",false);
@@ -65,22 +73,106 @@
         secret.addEventListener("droppedEvent",function(){
         	bookShelf.emit("droppedEvent");
         })
+
+        bow.addEventListener("click",function(){
+          scene.removeChild(bedroom); 
+          generateSuns(scene);
+        })
+        // scene.removeChild(bedroom); 
+        // generateSuns(scene);
+        // var suns = document.querySelectorAll(".sun");
+        // suns.forEach(function(sun){
+        //   sun.addEventListener("click",function(){
+        //     // this.emit("sunShot");
+        //     alert("clicked");
+        //   })
+        // })
+        
 			}
 		})
-		
+
+    var generateSuns = function(scene){
+      for (var i = 1; i < 11; i++) {
+        var sun = document.createElement('a-entity'),
+            sunwrapper = document.getElementById("sunwrapper"),
+            sunlight = document.createElement('a-entity'),
+            animation = document.createElement("a-animation"),
+            pos =  {x: Math.random() * 20 - 10, y: Math.random() * 20 + 2, z: Math.random() * 20 - 10};
+        sun.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
+        sun.setAttribute('material', {shader: 'flat'});
+        // sun.setAttribute('light', {type: 'point', color: '#FFF'});
+        sun.setAttribute('position',pos);
+        sun.setAttribute("class", "sun");
+        animation.setAttribute("attribute","radius");
+        animation.setAttribute("begin","sunShot");
+        animation.setAttribute("to","2");
+        animation.setAttribute("dur","5000");
+        sun.appendChild(animation);
+        // sunlight.setAttribute('position',pos);
+        // sunlight.setAttribute('light',"color: #AFA; intensity: 1.5;")
+        // sunlight.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
+        // sun.appendChild(sunlight);
+        sunwrapper.appendChild(sun);
+      }
+      // scene.appendChild(sunwrapper);
+    }
+		// (function () {
+  //      // switch to stereoscopic mode directly on page load, this needs to be after the a-scene loads.
+  //      var scene = document.querySelector('a-scene');
+  //      if (scene.hasLoaded) {
+  //          scene.enterVR();
+  //      } else {
+  //          scene.addEventListener('loaded', function () {
+  //              setTimeout(function () {
+  //                  scene.enterVR();
+  //              }, 1000);
+  //          });
+  //      };
+  //  })();
 
 	</script>
-	<a-scene physics room light="defaultLightsEnabled: false">
+	<div id="preloader-modal" class="modal instructions-modal" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-dialog__full" role="document">
+    <div class="modal-content vertical-align text-center">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="row">
+          <div class="col-xs-12">
+            <i class="preloader-modal__ok fa fa-check fa-5x text-success" aria-hidden="true"></i>
+            <i class="preloader-modal__spinner fa fa-cog fa-spin fa-5x fa-fw text-muted" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <span class="progress-label">Loading 0%</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 ">
+            <div class="progress">
+              <div class="progress-bar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-default clearfix" data-dismiss="modal">Start</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+	<a-scene physics room light="defaultLightsEnabled: false" preloader="autoInject: true; clickToClose: true; target: #preloader-modal; bar: #preloader-modal .progress-bar; label: #preloader-modal .progress-label; labelText: Loading {0}%; doneLabelText: Press Start To Play!;"">
 		<!-- assets -->
 		<a-assets>
-			<img id="desert" src="bg/desert.jpg">
-			<img id="message-box" src="img/message-box.png">
-			<img id="new-message" src="img/new-message.jpg">
-			<img id="replay-btn" src="img/replay.png">
-      <a-asset-item id="shelf" src="model/bookcase.dae"></a-asset-item>
-      <a-asset-item id="bedroom-model" src="model/bedroom.dae"></a-asset-item>
-      <a-asset-item id="bow" src="model/arrow.dae"></a-asset-item>
-      <a-asset-item id="book-model" src="model/book.dae"></a-asset-item>
+			<img id="desert" src="bg/desert.jpg" preload="auto">
+			<img id="message-box" src="img/message-box.png" preload="auto">
+			<img id="new-message" src="img/new-message.jpg" preload="auto">
+			<img id="replay-btn" src="img/replay.png" preload="auto">
+      <a-asset-item id="shelf" src="model/bookcase.dae" preload="auto"></a-asset-item>
+      <a-asset-item id="bedroom-model" src="model/bedroom.dae" preload="auto"></a-asset-item>
+      <a-asset-item id="bow-model" src="model/arrow.dae" preload="auto"></a-asset-item>
+      <a-asset-item id="book-model" src="model/book.dae" preload="auto"></a-asset-item>
       <video id="video" src="" webkit-playsinline></video>
       <audio id="ding" src="video/ding.mp3" webkit-playsinline></audio>
     </a-assets>
@@ -105,7 +197,7 @@
 			</a-collada-model>
 
 			<!-- bow -->
-			<a-collada-model src="#bow" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-collada-model>
+			<a-entity id="bow" src="#bow-model" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-entity>
 
 			<!-- book -->
 			<a-collada-model dynamic-body grabbable draggable  id="book" src="#book-model" position="-0.54 0.7 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863">
@@ -124,10 +216,15 @@
 				</a-entity>
 			</a-entity>
 		</a-collada-model>
+    <a-entity id="sunwrapper"></a-entity>
 		<a-sky src="#desert"></a-sky>
 		<a-camera camera="userHeight: 1.6" look-controls> 
 	    <a-cursor></a-cursor>
 	  </a-camera>
 	</a-scene>
+  <div id="scoreboard">
+    Total suns shot
+    <div class="counter-wrapper"><span class="counter">0</span> / 9</div>
+  </div>
 </body>
 </html>

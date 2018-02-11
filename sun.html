@@ -7,7 +7,7 @@
 		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
 		<script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
 		<script src="https://unpkg.com/aframe-animation-component@^3.2.0/dist/aframe-animation-component.min.js"></script>
-		<script src="js/glow.js"></script>
+		<!-- <script src="js/glow.js"></script> -->
 	</head>
 	<body>
 		<script>
@@ -18,11 +18,16 @@
 	          
 	          for (var i = 1; i < 9; i++) {
 	            
-	            var sun = document.createElement('a-entity');
+	            var sun = document.createElement('a-entity'),
+	            		sunlight = document.createElement('a-entity'),
+	            		pos =  {x: Math.random() * 20 - 10, y: Math.random() * 20 + 2, z: Math.random() * 20 - 10};
 	            sun.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
 	            sun.setAttribute('material', {shader: 'flat'});
 	            // sun.setAttribute('light', {type: 'point', color: '#FFF'});
-	            sun.setAttribute('position', {x: Math.random() * 20 - 10, y: Math.random() * 20 + 2, z: Math.random() * 20 - 10});
+	            sun.setAttribute('position',pos);
+	            sunlight.setAttribute('position',pos);
+	            sunlight.setAttribute('light',"color: #AFA; intensity: 1.5")
+	            sun.appendChild(sunlight);
 	            sceneEl.appendChild(sun);
 	          }
 	        }
@@ -30,7 +35,7 @@
 	    </script>
 		<a-scene shooting>
 			<a-sky src="bg/desert.jpg"></a-sky>
-			<a-sphere glow="color: #fff10b; scale: 1.2; c: 0; p: 2" position="6.5 7 0" radius="0.5" color="#f7e26f" geometry=""></a-sphere>
+			<!-- <a-sphere glow="color: #fff10b; scale: 1.2; c: 0; p: 2" position="6.5 7 0" radius="0.5" color="#f7e26f" geometry=""></a-sphere> -->
 			
 			<a-camera camera="userHeight: 1.6" look-controls> 
 			    <a-cursor></a-cursor>

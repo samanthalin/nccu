@@ -1,0 +1,20 @@
+#scoreboard{
+	position:absolute; 
+	top:0px; 
+	left:0px; 
+	z-index:1000;
+	height: 100px;
+	width: 200px;
+	background-color: rgba(162,162,162,0.6);
+	margin-top: 10px;
+	margin-left: 10px;
+	border-radius: 10px;
+	padding: 10px;
+	font-size: 18px;
+	text-align: center;
+	color: #fff;
+}
+#scoreboard .counter-wrapper{
+	font-size: 42px;
+	margin-top: 5px;
+}

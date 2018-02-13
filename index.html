@@ -14,6 +14,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-animation-component@4.0.0-beta8/dist/aframe-animation-component.min.js"></script>
 	<script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
 	<script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
 	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script> 
@@ -74,47 +75,119 @@
         	bookShelf.emit("droppedEvent");
         })
 
-        bow.addEventListener("click",function(){
-          scene.removeChild(bedroom); 
-          generateSuns(scene);
-        })
-        // scene.removeChild(bedroom); 
-        // generateSuns(scene);
-        // var suns = document.querySelectorAll(".sun");
-        // suns.forEach(function(sun){
-        //   sun.addEventListener("click",function(){
-        //     // this.emit("sunShot");
-        //     alert("clicked");
-        //   })
+        // bow.addEventListener("click",function(){
+        //   scene.removeChild(bedroom); 
+        //   generateSuns(scene);
         // })
-        
+        scene.removeChild(bedroom); 
+        scene2(scene);
+
 			}
 		})
 
-    var generateSuns = function(scene){
-      for (var i = 1; i < 11; i++) {
-        var sun = document.createElement('a-entity'),
-            sunwrapper = document.getElementById("sunwrapper"),
-            sunlight = document.createElement('a-entity'),
-            animation = document.createElement("a-animation"),
-            pos =  {x: Math.random() * 20 - 10, y: Math.random() * 20 + 2, z: Math.random() * 20 - 10};
-        sun.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
-        sun.setAttribute('material', {shader: 'flat'});
-        // sun.setAttribute('light', {type: 'point', color: '#FFF'});
-        sun.setAttribute('position',pos);
-        sun.setAttribute("class", "sun");
-        animation.setAttribute("attribute","radius");
-        animation.setAttribute("begin","sunShot");
-        animation.setAttribute("to","2");
-        animation.setAttribute("dur","5000");
-        sun.appendChild(animation);
-        // sunlight.setAttribute('position',pos);
-        // sunlight.setAttribute('light',"color: #AFA; intensity: 1.5;")
-        // sunlight.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
-        // sun.appendChild(sunlight);
-        sunwrapper.appendChild(sun);
+    var scene2 = function(scene){
+      var totalSunShot = 0,
+          scoreboard = document.getElementById("scoreboard"),
+          counter = scoreboard.querySelector(".counter"),
+          sunwrapper = document.getElementById("sunwrapper");
+      this.prepare = function(){
+        for (var i = 1; i < 10; i++) {
+          var sun = document.createElement('a-sphere'),
+              sunlight = document.createElement('a-entity'),
+              pos =  {x: Math.random() * 20 - 10, y: Math.random() * 20 + 2, z: Math.random() * 20 - 10};
+          sun.setAttribute("radius", '0.5')
+          sun.setAttribute('material', {shader: 'flat'});
+          sun.setAttribute('light', {type: 'point', color: '#FFF'});
+          sun.setAttribute('position',pos);
+          sun.setAttribute("class", "sun");
+          sun.setAttribute("data-index",i);
+          sun.setAttribute("data-shot",false);
+          sun.setAttribute("animation__expand" + i, {"property" : "radius", "startEvents" : "sunShot", "to" : "2", "dur" : "200"})
+          sun.setAttribute("animation__fadeout" + i, {"property" : "material.opacity", "startEvents" : "sunShot", "to" : "0", "dur" : "300", "from" : "1", "easing": "linear"});
+
+          // sunlight.setAttribute('position',pos);
+          // sunlight.setAttribute('light',"color: #AFA; intensity: 1.5;")
+          // sunlight.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
+          // sun.appendChild(sunlight);
+          sun.addEventListener("click",function(){
+             this.emit("sunShot");
+          })
+          var sunEl;
+          sun.addEventListener("sunShot",function(){
+            sunEl = this;
+            if(this.attributes["data-shot"].value == "false"){
+              totalSunShot++;
+              counter.textContent = totalSunShot;
+              if(totalSunShot >= 9){
+                $("#alien-message").fadeIn();
+                scene3(scene);
+              }
+              setTimeout(function(){
+                sunwrapper.removeChild(sunEl);
+              },500);
+
+            }
+          })
+          sunwrapper.appendChild(sun);
+        }
       }
-      // scene.appendChild(sunwrapper);
+
+      this.prepare();
+    }
+
+    var scene3 = function(scene){
+      var sky = document.querySelector("a-sky"),
+          sunwrapper = document.getElementById("sunwrapper"),
+          counter = $("#scoreboard .counter"),
+          totalSunShot = 0;
+      this.prepare = function(){
+        $("#desert").remove();
+        while (sunwrapper.firstChild) {
+          sunwrapper.removeChild(sunwrapper.firstChild);
+        }
+        $("a-assets").append("<img id='snow-img' src='bg/snow.jpg' />");
+        counter.text("0");
+        sky.setAttribute("src", "#snow-img")
+        for (var i = 1; i < 10; i++) {
+          var sun = document.createElement('a-sphere'),
+              sunlight = document.createElement('a-entity'),
+              pos =  {x: Math.random() * 20 - 10, y: Math.random() * 20 + 2, z: Math.random() * 20 - 10};
+          sun.setAttribute("radius", '0.5');
+          sun.setAttribute('material', {shader: 'flat'});
+          sun.setAttribute('light', {type: 'point', color: '#FFF'});
+          sun.setAttribute('position',pos);
+          sun.setAttribute("class", "sun");
+          sun.setAttribute("data-index",i);
+          sun.setAttribute("data-shot",false);
+          sun.setAttribute("animation__expand" + i, {"property" : "radius", "startEvents" : "sunShot", "to" : "2", "dur" : "200"})
+          sun.setAttribute("animation__fadeout" + i, {"property" : "material.opacity", "startEvents" : "sunShot", "to" : "0", "dur" : "300", "from" : "1", "easing": "linear"});
+
+          sun.addEventListener("click",function(){
+             this.emit("sunShot");
+          })
+          var sunEl;
+          sun.addEventListener("sunShot",function(){
+            sunEl = this;
+            if(this.attributes["data-shot"].value == "false"){
+              totalSunShot++;
+              counter.text(totalSunShot);
+              if(totalSunShot >= 9){
+                $("#alien-message").fadeIn();
+                scene3(scene);
+              }
+              setTimeout(function(){
+                sunwrapper.removeChild(sunEl);
+              },500);
+
+            }
+          })
+          sunwrapper.appendChild(sun);
+        }
+        setTimeout(function(){
+          $("#alien-message").fadeOut();
+        },10000)
+      }
+      this.prepare();
     }
 		// (function () {
   //      // switch to stereoscopic mode directly on page load, this needs to be after the a-scene loads.
@@ -216,7 +289,8 @@
 				</a-entity>
 			</a-entity>
 		</a-collada-model>
-    <a-entity id="sunwrapper"></a-entity>
+    <a-entity id="sunwrapper">
+    </a-entity>
 		<a-sky src="#desert"></a-sky>
 		<a-camera camera="userHeight: 1.6" look-controls> 
 	    <a-cursor></a-cursor>
@@ -225,6 +299,12 @@
   <div id="scoreboard">
     Total suns shot
     <div class="counter-wrapper"><span class="counter">0</span> / 9</div>
+  </div>
+  <div id="alien-message">
+    <div class="message-area">
+      <img src="img/alien.png" alt="alien">
+      <div class="text">Oops!! Please do this again.</div>
+    </div>
   </div>
 </body>
 </html>

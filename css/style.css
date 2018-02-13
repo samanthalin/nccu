@@ -18,3 +18,38 @@
 	font-size: 42px;
 	margin-top: 5px;
 }
+
+#alien-message{
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	z-index:1100;
+	position:absolute; 
+	top:0px; 
+	left:0px;
+	display: none;
+}
+
+#alien-message .message-area{
+	width: 95%;
+	height: 90%;
+	border-radius: 20px;
+	background-color: rgba(145, 232, 255, 0.6);
+	z-index:1110;
+	position:absolute; 
+	top:0px; 
+	left:0px;
+	margin-top: 50px;
+	margin-left: 50px;
+	text-align: center;
+}
+
+
+#alien-message img{
+	margin-top: 100px;
+}
+
+#alien-message .text{
+	font-size: 60px;
+	margin-top: 50px;
+}

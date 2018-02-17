@@ -15,6 +15,7 @@ AFRAME.registerComponent('room', {
     		secret = document.getElementById("secret"),
     		bedroom = document.getElementById("bedroom"),
         bow = document.getElementById("bow"),
+        rightHandController = document.getElementById("rightHand"),
         scene = this.el;
 
     wallpaper.setAttribute("visible", true);
@@ -26,17 +27,17 @@ AFRAME.registerComponent('room', {
     	video.setAttribute("src","video/video.mp4");
     })
     video.onended = function(){
-  		video1.setAttribute("visible",false);
+  		player.setAttribute("visible",false);
   		message3.setAttribute("visible",true);
   	}
     newMessageIcon.addEventListener("click",function(){
     	message2.setAttribute("visible",false);
-    	video1.setAttribute("visible",true);
+    	player.setAttribute("visible",true);
     	video.play();
     })
     replayBtn.addEventListener("click",function(){
     	message3.setAttribute("visible",false);
-    	video1.setAttribute("visible",true);
+    	player.setAttribute("visible",true);
     	video.play();
     })
     secret.addEventListener("droppedEvent",function(){
@@ -47,6 +48,17 @@ AFRAME.registerComponent('room', {
       bedroom.setAttribute("scale","0 0 0")
       scene2(scene);
     })
+
+    // rightHandController.addEventListener("menudown",function(){
+    //   if(this.attributes["data-laser-on"].value == "false"){
+    //     this.setAttribute("data-laser-on",true);
+    //     this.setAttribute("laser-controls", "hand: right");
+    //   }else{
+    //     this.setAttribute("data-laser-on",false);
+    //     this.removeAttributeNode("laser-controls");
+    //   }
+    // })
+
     // bedroom.setAttribute("visible", false);
     // bedroom.setAttribute("scale","0 0 0")
     // scene3(scene);

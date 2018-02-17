@@ -7,25 +7,22 @@
 	<title>nccu</title>
 	<!-- Bootstrap Bootswatch theme CSS - other themes available here: https://bootswatch.com -->
 
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
   <link rel="stylesheet" href="css/style.css">
   <!-- Bootstrap JS Dependencies -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script> 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-  <script src="https://unpkg.com/aframe-animation-component@4.0.0-beta8/dist/aframe-animation-component.min.js"></script>
-	<script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
-	<script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
-	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script> 
-  <script src="js/super-hands.js"></script>
-  <!-- <script src="https://dist.3d.io/3dio-js/1.x.x/3dio.min.js"></script> -->
- 	<script src="http://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.1/dist/aframe-physics-system.min.js"></script>
-  <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.js"></script>
-
- <!-- <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script> -->
-  <!-- <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script> -->
-  <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+	  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+    <script src="https://unpkg.com/super-hands/dist/super-hands.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.js"></script>
+    <script src="https://dist.3d.io/3dio-js/1.x.x/3dio.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+    <!-- <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script> -->
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
   <script src="js/aframe-preloader-component.js"></script>
   </head>
 </head>
@@ -62,7 +59,8 @@
     </div>
   </div>
 </div>
-	<a-scene physics room light="defaultLightsEnabled: false" preloader="autoInject: true; clickToClose: true; target: #preloader-modal; bar: #preloader-modal .progress-bar; label: #preloader-modal .progress-label; labelText: Loading {0}%; doneLabelText: Press Start To Play!;"">
+	<a-scene physics room light="defaultLightsEnabled: false" preloader="autoInject: true; clickToClose: true; target: #preloader-modal; bar: #preloader-modal .progress-bar; label: #preloader-modal .progress-label; labelText: Loading {0}%; doneLabelText: Press Start To Play!;">
+
 		<!-- assets -->
 		<a-assets>
 			<img id="desert" src="bg/desert.jpg" preload="auto">
@@ -75,24 +73,42 @@
       <a-asset-item id="book-model" src="model/book.dae" preload="auto"></a-asset-item>
       <video id="video" src="" loop="false" autoplay="false" webkit-playsinline></video>
       <audio id="ding" src="video/ding.mp3" webkit-playsinline></audio>
+      <a-mixin id="gazer" collision-filter="collisionForces: false"></a-mixin>
+      <a-mixin id="pointer" collision-filter="collisionForces: false" 
+               teleport-controls="cameraRig: #player; collisionEntities: #teleport-range">
+      </a-mixin>
+      <a-mixin id="ctrlr" physics-collider collision-filter="collisionForces: false"
+               super-hands="colliderEvent: collisions; colliderEventProperty: els; colliderEndEvent: collisions; colliderEndEventProperty: clearedEls"
+               teleport-controls="cameraRig: #player; collisionEntities: #teleport-range">
+      </a-mixin>
+      <a-mixin id="collider-space" static-body material="visible:false"></a-mixin>
     </a-assets>
-
-    <!-- player controls -->
 		<a-entity id="player" progressive-controls="objects: [grabbable], [droppable], [clickable];gazeMixin: gazer; pointMixin: pointer; touchMixin: ctrlr">
-      <a-entity id="rightHand" class="right-controller"></a-entity>
+      <a-entity id="rightHand" data-laser-on="false" laser-controls="hand: right" raycaster="objects: .clickable" class="right-controller"></a-entity>
       <a-entity id="leftHand" class="left-controller"></a-entity>
     </a-entity>
 			
 		<!-- bedroom -->
 		<a-collada-model id="bedroom" src="#bedroom-model">
-      <a-plane static-body id="tablesupport" position="-0.685 0.412 0.736" rotation="-90 0 0" scale="0.935 1.419 1" material=""></a-plane>  
-      <a-plane static-body id="floor" position="-0.685 0.061 0.736" rotation="-90.01166961505233 -2.0626480624709633 0" scale="8.603 6.46 0.812" material="opacity:0"></a-plane>
+
+      <!-- table support -->
+      <a-plane static-body="" id="tablesupport" position="-0.637 0.349 0.736" rotation="-90 0 0" scale="0.935 1.419 0.1" material="visible:false;"></a-plane>
+
+      <!-- floor -->
+      <a-plane static-body="" id="floor" position="-0.685 -0.071 0.736" rotation="-90.01166961505233 -2.0626480624709633 0" scale="8.603 6.46 0.812" material="visible:false"></a-plane>
 
       <!-- secret place to drop -->
-      <a-plane static-body="sphereRadius:NaN" droppable="accepts:.boook;acceptEvent:droppedEvent" id="secret" position="-0.754 0.702 -0.93" scale="1 1 3.159" rotation="-89.09493714284301 -165.3556196747556 166.5588310445303" material=""></a-plane>
+      <!-- <a-plane static-body="sphereRadius:NaN" droppable="accepts:.boook;acceptEvent:droppedEvent" id="secret" position="-0.754 0.702 -0.93" scale="1 1 3.159" rotation="-89.09493714284301 -165.3556196747556 166.5588310445303" material=""></a-plane> -->
 
 			<!-- book-shelf -->
 			<a-collada-model id="book-shelf" src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae" >
+        <a-entity id="bookcase-colliders">
+          <a-entity position="-3.282 1.808 -0.409" geometry="depth:0.29;height:0.54;width:1.21" mixin="collider-space" scale="-0.088 1.13 3.823" static-body="sphereRadius:NaN"></a-entity>
+          <a-entity position="-3.282 1.363 -0.409" geometry="depth:0.29;height:0.54;width:1.21" mixin="collider-space" scale="-0.088 0.666 1.012" static-body="sphereRadius:NaN"></a-entity>
+          <a-entity position="-3.282 1.363 -0.756" geometry="depth:0.29;height:0.54;width:1.21" mixin="collider-space" scale="-0.088 0.666 1.012" static-body="sphereRadius:NaN"></a-entity>
+          <a-entity position="-3.282 0.876 -0.409" geometry="depth:0.29;height:0.54;width:1.21" mixin="collider-space" scale="-0.088 1.13 3.823" static-body="sphereRadius:NaN"></a-entity>
+        </a-entity>
+       <a-entity id="secret" position="-3.308 1.328 -0.609" geometry="depth:0.39;height:0.44;width:0.13" material="visible:false" droppable="accepts:.boook;acceptEvent:droppedEvent" static-body="sphereRadius:NaN" collision-filter="collisionForces:false" rotation="-1.604281826366305 -92.87645859070645 0.40107045659157625" scale="0.569 0.619 1"></a-entity>
 	      <a-animation attribute="position" to="-0.285 0 1.532" dur="3000" begin="droppedEvent"></a-animation>
 			</a-collada-model>
 
@@ -100,27 +116,28 @@
 			<a-entity id="bow" src="#bow-model" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae"></a-entity>
 
 			<!-- book -->
-			<a-collada-model dynamic-body grabbable draggable  id="book" src="#book-model" position="-0.54 0.7 1.109" rotation="-90.01166961505233 47.15442653926675 0" scale="1.863 1.863 1.863">
-	      <a-box class="boook" position="0.044 0.068 0.016" scale="0.075 0.131 0.026" material="opacity: 0;"></a-box>
-	    </a-collada-model>
-
+      <a-collada-model dynamic-body="sphereRadius:NaN" grabbable="maxGrabbers:NaN" draggable="" id="book" src="#book-model" position="-0.234 0.473 0.485" scale="1.863 1.863 1.863" collada-model="model/book.dae" quaternion="-0.499 0.501 0.501 0.499" velocity="">
+        <a-box class="boook" position="0.047 0.068 0.008" scale="0.089 0.145 0.026" material="opacity:0"></a-box>
+      </a-collada-model>
+      
 	    <!-- message box -->
-			<a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="src: #message-box" geometry="height: 0.5; primitive: plane" visible="false" id="wallpaper">
-				<a-entity id="message1" text-geometry="value:NEWS VIDEO" position="1.196 -0.19 0.024" rotation="2.1199438419840457 175.78345154613658 1.8907607239317168" scale="0.625 0.673 1"></a-entity>
+			<a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="visible:false;" geometry="height: 0.5; primitive: plane" visible="false" id="wallpaper">
+				<a-entity id="message1" class="clickable" text-geometry="value:NEWS VIDEO" position="1.196 -0.19 0.024" rotation="2.1199438419840457 175.78345154613658 1.8907607239317168" scale="0.625 0.673 1"></a-entity>
 				<a-entity id="message2" text-geometry="value: New message recieved." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false">
-					<a-entity id="new-message-icon" material="src: #new-message"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224" ></a-entity>
+					<a-entity id="new-message-icon" class="clickable" material="src: #new-message"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224" ></a-entity>
 				</a-entity>
 				<a-video id="video1" position="-0.303 -0.251 0.462" src="#video" width="16" height="9" scale="0.209 0.217 1" rotation="2.0053522829578814 178.5909447422776 1.9480565034447992" visible="false"></a-video>
 				<a-entity id="message3" text-geometry="value: Replay message." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false">
-					<a-entity id="replay-message" material="src: #replay-btn"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224"></a-entity>
+					<a-entity id="replay-message" class="clickable" material="src: #replay-btn"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224"></a-entity>
 				</a-entity>
 			</a-entity>
 		</a-collada-model>
     <a-entity id="sunwrapper"></a-entity>
 		<a-sky src="#desert"></a-sky>
-		<a-camera camera="userHeight: 1.6" look-controls> 
-	    <a-cursor></a-cursor>
-	  </a-camera>
+		<a-camera camera="userHeight: 1.6"> 
+      <!-- <a-cursor></a-cursor> -->
+    </a-camera>
+    <a-box id="teleport-range" position="0.159 0.05 0.048" material="visible:false" geometry="depth:4.53;height:0.01;width:4.67" scale="1.656 1 1.308"></a-box>
 	</a-scene>
   <div id="scoreboard">
     Total suns shot

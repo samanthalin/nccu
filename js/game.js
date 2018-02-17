@@ -23,7 +23,7 @@ AFRAME.registerComponent('room', {
     	this.setAttribute("visible",false);
     	message2.setAttribute("visible", true);
     	audio.play();
-    	video1.setAttribute("src","video/video.mp4");
+    	video.setAttribute("src","video/video.mp4");
     })
     video.onended = function(){
   		video1.setAttribute("visible",false);

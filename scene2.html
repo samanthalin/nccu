@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="apple-mobile-web-app-capable">
+		<title>scene2</title>
+
+		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+		<script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+	</head>
+	<body>
+		<a-scene light="defaultLightsEnabled: false">
+			
+			<!-- <a-sky src="bg/desert.jpg"></a-sky> -->
+			<a-sky src="bg/snow.jpg"></a-sky>
+			<a-image src="img/compass_black.png" rotation="-90 0 0" scale="2 2 2"></a-image>
+			<a-collada-model id="bow-model" src="model/bow.dae" position="-4.222 0 -1.16" rotation="0 111.95595316856286 0" scale="0.5 0.5 0.5" collada-model="model/bow.dae"></a-collada-model>
+			<a-collada-model id="arrow-model" src="model/arrow.dae" position="-1.032 0 -1.984" rotation="0 116.08124929350477 0" scale="0.5 0.5 0.5" collada-model="model/arrow.dae"></a-collada-model>
+
+			<a-camera camera="userHeight: 1.6"> 
+				<!-- <a-video src="video/ai3.mp4" position="0 0 -2.22" scale="3.72 1.988 1.988"></a-video> -->
+
+				<a-plane height="2" width="3" material="side:double;emissive:#64dbdd" position="0 0 -2.211" scale="1.164 1.164 1.164">
+					<a-image src="img/intro03.gif" scale="2.223 1.383 1.383"></a-image><!-- gif is not play.. have to change to mp4 -->
+				</a-plane>
+
+				<a-text value="9 / 9  LEFT" position="-4.018 2.658 -3.435" text="color:white;value:9 / 9  evil sun left;align:center"></a-text>
+				
+				<a-plane position="3.905 2.598 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+					<a-text value="DATE : 7849/08/22" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+				</a-plane>
+				<a-plane position="3.905 2.105 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+					<a-text value="TIME : 12:10:10" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+				</a-plane>
+				<a-plane position="3.905 1.61 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+					<a-text value="25.04 N, 121.53 E" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+				</a-plane>
+			    <!-- <a-cursor></a-cursor> -->
+			</a-camera>
+		</a-scene>
+	</body>
+</html>

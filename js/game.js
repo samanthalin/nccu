@@ -11,11 +11,14 @@ AFRAME.registerComponent('room', {
     		player = document.getElementById("video1"),
     		video = document.getElementById("video"),
     		audio = document.getElementById("ding"),
-    		bookShelf = document.getElementById("book-shelf"),
+        bookShelf = document.getElementById("book-shelf"),
+    		bookonshelf = document.getElementById("bookonshelf"),
+        book = document.getElementById("book"),
     		secret = document.getElementById("secret"),
     		bedroom = document.getElementById("bedroom"),
-        bow = document.getElementById("bow"),
+        finish = document.getElementById("finish"),
         rightHandController = document.getElementById("rightHand"),
+        scene1 = document.getElementById("scene1"),
         scene = this.el;
 
     wallpaper.setAttribute("visible", true);
@@ -40,24 +43,15 @@ AFRAME.registerComponent('room', {
     	player.setAttribute("visible",true);
     	video.play();
     })
-    secret.addEventListener("droppedEvent",function(){
-    	bookShelf.emit("droppedEvent");
-    })
-
-    bow.addEventListener("click",function(){
-      bedroom.setAttribute("scale","0 0 0")
+    console.log(finish);
+    finish.addEventListener("grab-start",function(){
+      bedroom.setAttribute("scale","0 0 0");
+      scene1.setAttribute("visible","false");
       scene2(scene);
     })
-
-    // rightHandController.addEventListener("menudown",function(){
-    //   if(this.attributes["data-laser-on"].value == "false"){
-    //     this.setAttribute("data-laser-on",true);
-    //     this.setAttribute("laser-controls", "hand: right");
-    //   }else{
-    //     this.setAttribute("data-laser-on",false);
-    //     this.removeAttributeNode("laser-controls");
-    //   }
-    // })
+    bedroom.setAttribute("scale","0 0 0");
+      scene1.setAttribute("visible","false");
+      scene2(scene);
 
     // bedroom.setAttribute("visible", false);
     // bedroom.setAttribute("scale","0 0 0")
@@ -67,9 +61,15 @@ AFRAME.registerComponent('room', {
 })
 
 var scene2 = function(scene){
-  var totalSunShot = 0,
+  var totalSunShot = 9,
+      sky = document.querySelector("a-sky")
+      scene2 = document.getElementById("scene2"),
+      scene2Camera = document.getElementById("scene2-camera"),
       scoreboard = document.getElementById("scoreboard"),
-      counter = scoreboard.querySelector(".counter"),
+      intro = document.getElementById("scene2-intro"),
+      introDisplay = true,
+      huds = document.getElementById("scene2-huds"),
+      rightHandController = document.getElementById("rightHand"),
       sunwrapper = document.getElementById("sunwrapper");
   this.prepare = function(){
     for (var i = 1; i < 10; i++) {
@@ -80,17 +80,12 @@ var scene2 = function(scene){
       sun.setAttribute('material', {shader: 'flat'});
       sun.setAttribute('light', {type: 'point', color: '#FFF'});
       sun.setAttribute('position',pos);
-      sun.setAttribute("class", "sun");
+      sun.setAttribute("class", "sun clickable");
       sun.setAttribute("data-index",i);
       sun.setAttribute("data-shot",false);
       sun.setAttribute("animation__expand" + i, {"property" : "radius", "startEvents" : "sunShot", "to" : "2", "dur" : "200"})
       sun.setAttribute("animation__fadeout" + i, {"property" : "material.opacity", "startEvents" : "sunShot", "to" : "0", "dur" : "300", "from" : "1", "easing": "linear"});
 
-      // sunlight.setAttribute('position',pos);
-      // sunlight.setAttribute('light',"color: #AFA; intensity: 1.5;")
-      // sunlight.setAttribute('geometry', {primitive: 'sphere', radius: '0.5'});
-      // sun.appendChild(sunlight);
-      $("#scoreboard").show();
       sun.addEventListener("click",function(){
          this.emit("sunShot");
       })
@@ -98,21 +93,33 @@ var scene2 = function(scene){
       sun.addEventListener("sunShot",function(){
         sunEl = this;
         if(this.attributes["data-shot"].value == "false"){
-          totalSunShot++;
-          counter.textContent = totalSunShot;
-          if(totalSunShot >= 9){
-            $("#alien-message").fadeIn();
-            scene3(scene);
+          totalSunShot--;
+          scoreboard.setAttribute("value",totalSunShot + " / 9 Left");
+          if(totalSunShot == 0){
+            // $("#alien-message").fadeIn();
+            // scene3(scene);
           }
           setTimeout(function(){
             sunwrapper.removeChild(sunEl);
           },500);
-
         }
       })
       sunwrapper.appendChild(sun);
     }
+    sky.setAttribute("src", "#snow-img");
+    scene2.setAttribute("visible","true");
+    scene2Camera.setAttribute("visible","true");
   }
+
+  rightHandController.addEventListener("menudown",function(){
+    if(introDisplay){
+      intro.setAttribute("visible","false");
+      huds.setAttribute("visible","true");
+    }else{
+      intro.setAttribute("visible","true");
+      huds.setAttribute("visible","false");
+    }
+  })
 
   this.prepare();
 }
@@ -138,7 +145,7 @@ var scene3 = function(scene){
       sun.setAttribute('material', {shader: 'flat'});
       sun.setAttribute('light', {type: 'point', color: '#FFF'});
       sun.setAttribute('position',pos);
-      sun.setAttribute("class", "sun");
+      sun.setAttribute("class", "sun clickable");
       sun.setAttribute("data-index",i);
       sun.setAttribute("data-shot",false);
       sun.setAttribute("animation__expand" + i, {"property" : "radius", "startEvents" : "sunShot", "to" : "2", "dur" : "200"})

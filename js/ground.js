@@ -8,7 +8,7 @@ AFRAME.registerComponent('ground', {
     console.log('loading ground')
     var objectLoader;
     var object3D = this.el.object3D;
-    var MODEL_URL = 'assets/models/ground.json';
+    var MODEL_URL = 'model/ground.json';
     if (this.objectLoader) { 
  console.log('no object loader')
       return; }

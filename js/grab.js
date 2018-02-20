@@ -1,12 +1,12 @@
-/* global AFRAME */
+/* global AFRAME, THREE */
 
 /**
- * Handles events coming from the hand-controls.
- * Determines if the entity is grabbed or released.
- * Updates its position to move along the controller.
- */
+* Handles events coming from the hand-controls.
+* Determines if the entity is grabbed or released.
+* Updates its position to move along the controller.
+*/
 AFRAME.registerComponent('grab', {
-  init: function() {
+  init: function () {
     this.GRABBED_STATE = 'grabbed';
     // Bind event handlers
     this.onHit = this.onHit.bind(this);
@@ -14,44 +14,31 @@ AFRAME.registerComponent('grab', {
     this.onGripClose = this.onGripClose.bind(this);
     this.onTriggerDown = this.onTriggerDown.bind(this);
     this.onTriggerUp = this.onTriggerUp.bind(this);
-    this.onDisableRotation = this.onDisableRotation.bind(this);
-    this.onEnableRotation = this.onEnableRotation.bind(this);
+    this.currentPosition = new THREE.Vector3();
   },
 
-  play: function() {
+  play: function () {
     var el = this.el;
     el.addEventListener('hit', this.onHit);
-    el.addEventListener('gripclose', this.onGripClose);
-    el.addEventListener('gripopen', this.onGripOpen);
-    el.addEventListener('thumbup', this.onGripClose);
-    el.addEventListener('thumbdown', this.onGripOpen);
-    el.addEventListener('pointup', this.onGripClose);
-    el.addEventListener('pointdown', this.onGripOpen);
+    el.addEventListener('buttondown', this.onGripClose);
+    el.addEventListener('buttonup', this.onGripOpen);
     el.addEventListener('triggerdown', this.onTriggerDown);
     el.addEventListener('triggerup', this.onTriggerUp);
-    el.addEventListener('disableRotation', this.onDisableRotation);
-    el.addEventListener('enableRotation', this.onEnableRotation);
-
   },
 
-  pause: function() {
+  pause: function () {
     var el = this.el;
     el.removeEventListener('hit', this.onHit);
-    el.removeEventListener('gripclose', this.onGripClose);
-    el.removeEventListener('gripopen', this.onGripOpen);
-    el.removeEventListener('thumbup', this.onGripClose);
-    el.removeEventListener('thumbdown', this.onGripOpen);
-    el.removeEventListener('pointup', this.onGripClose);
-    el.removeEventListener('pointdown', this.onGripOpen);
-    el.removeEventListener('triggerdown', this.onTriggerDown);
-    el.removeEventListener('triggerup', this.onTriggerUp);
-    el.removeEventListener('disableRotation', this.onDisableRotation);
-    el.removeEventListener('enableRotation', this.onEnableRotation);
+    el.addEventListener('buttondown', this.onGripClose);
+    el.addEventListener('buttonup', this.onGripOpen);
+    el.addEventListener('triggerdown', this.onTriggerDown);
+    el.addEventListener('triggerup', this.onTriggerUp);
   },
 
   onTriggerUp: function(evt) {
 
     var bow = document.getElementById('bow');
+    console.log(this.el.getAttribute('hand-controls'));
     bow.emit('shootArrow', {
       hand: this.el.getAttribute('hand-controls')
     })
@@ -65,35 +52,33 @@ AFRAME.registerComponent('grab', {
 
   },
 
-  onGripClose: function(evt) {
+  onGripClose: function (evt) {
+    if (this.grabbing) { return; }
     this.grabbing = true;
+    this.pressedButtonId = evt.detail.id;
     delete this.previousPosition;
   },
 
-  onGripOpen: function(evt) {
+  onGripOpen: function (evt) {
     var hitEl = this.hitEl;
+    if (this.pressedButtonId !== evt.detail.id) { return; }
     this.grabbing = false;
-    if (!hitEl) {
-      return;
-    }
+    if (!hitEl) { return; }
     hitEl.removeState(this.GRABBED_STATE);
+    hitEl.emit('grabend');
     var bow = document.querySelector('#bow')
     bow.emit('freeHands', {
       hand: this.el.getAttribute('hand-controls')
     })
-
     this.hitEl = undefined;
-
   },
 
-  onHit: function(evt) {
+  onHit: function (evt) {
     var hitEl = evt.detail.el;
     // If the element is already grabbed (it could be grabbed by another controller).
     // If the hand is not grabbing the element does not stick.
     // If we're already grabbing something you can't grab again.
-    if (!hitEl || hitEl.is(this.GRABBED_STATE) || !this.grabbing || this.hitEl) {
-      return;
-    }
+    if (!hitEl || hitEl.is(this.GRABBED_STATE) || !this.grabbing || this.hitEl) { return; }
     hitEl.addState(this.GRABBED_STATE);
     this.hitEl = hitEl;
     var hand = this.el.getAttribute('hand-controls')
@@ -102,18 +87,13 @@ AFRAME.registerComponent('grab', {
       hand: hand
     })
   },
-  rotateHeldObject: true,
-  tick: function() {
+
+  tick: function () {
     var hitEl = this.hitEl;
     var position;
-    if (!hitEl) {
-      return;
-    }
-
-    this.updatePositionDelta(hitEl);
-
+    if (!hitEl) { return; }
+    this.updateDelta();
     position = hitEl.getAttribute('position');
-
     hitEl.setAttribute('position', {
       x: position.x + this.deltaPosition.x,
       y: position.y + this.deltaPosition.y,
@@ -123,36 +103,27 @@ AFRAME.registerComponent('grab', {
     var handRotationQuat = this.el.object3D.quaternion;
     var bowRotationQuat = this.hitEl.object3D.quaternion;
 
-    if (this.rotateHeldObject === true) {
-      bowRotationQuat.copy(handRotationQuat);
-
-      var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
-
-      bowRotationQuat.multiply(rotateQuat);
-    }
+    bowRotationQuat.copy(handRotationQuat);
+    var rotateQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+    bowRotationQuat.multiply(rotateQuat);
 
   },
 
-  updatePositionDelta: function(hitEl) {
-    var currentPosition = this.el.getAttribute('position');
-    var previousPosition = this.previousPosition || currentPosition;
+  updateDelta: function () {
+    var currentPosition = this.currentPosition;
+    this.el.object3D.updateMatrixWorld();
+    currentPosition.setFromMatrixPosition(this.el.object3D.matrixWorld);
+    if (!this.previousPosition) {
+      this.previousPosition = new THREE.Vector3();
+      this.previousPosition.copy(currentPosition);
+    }
+    var previousPosition = this.previousPosition;
     var deltaPosition = {
       x: currentPosition.x - previousPosition.x,
       y: currentPosition.y - previousPosition.y,
       z: currentPosition.z - previousPosition.z
     };
-    this.previousPosition = currentPosition;
+    this.previousPosition.copy(currentPosition);
     this.deltaPosition = deltaPosition;
-
-  },
-
-  onDisableRotation: function() {
-    console.log('GRAB SHOULD NO LONGER ROTATE THE BOW');
-    this.rotateHeldObject = false;
-  },
-
-  onEnableRotation: function() {
-    console.log('GRAB SHOULD ROTATE THE BOW');
-    this.rotateHeldObject = true;
   }
 });

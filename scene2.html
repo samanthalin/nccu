@@ -3,40 +3,75 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="apple-mobile-web-app-capable">
-		<title>scene2</title>
+		<title>Game Scene 2</title>
 
 		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+		<!-- <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script> -->
 		<script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+		<!-- <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.js"></script> -->
+  	<script src="https://unpkg.com/aframe-animation-component@4.0.0-beta8/dist/aframe-animation-component.min.js"></script>
+  	<script src="shaders/skyGradient.js"></script>
+		<script src="js/ground.js"></script>
+	  <script src="js/aabb-collider.js"></script>
+	  <script src="js/aframe-meshline-component.min.js"></script>
+	  <script src="js/grab.js"></script>
+	  <script src="js/bow-and-arrow.js"></script>
+	  <script src="js/rotate-toward-velocity.js"></script>
+	  <script src="js/poissondisc-forest.js"></script>
+	  <script type="text/javascript" src="js/aframe-physics-system.v1.4.0.js"></script>
 	</head>
 	<body>
-		<a-scene light="defaultLightsEnabled: false">
-			
-			<!-- <a-sky src="bg/desert.jpg"></a-sky> -->
+  	<script type="text/javascript" src="js/scenes/scene2.js"></script>
+		<a-scene sun-shooting light="defaultLightsEnabled: false" id="main-scene" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 50;">
+			<a-assets>
+				<a-asset-item id="bow-obj" src="model/bowarrow/sg-bow-2-obj/sg-bow-2-rotated-nostring.obj" preload="auto"></a-asset-item>
+	      <a-asset-item id="bow-mtl" src="model/bowarrow/sg-bow-2-obj/sg-bow-2-rotated-nostring.mtl" preload="auto"></a-asset-item>
+	      <a-asset-item id="arrow-obj" src="model/bowarrow/low-poly-arrow-obj/low-poly-arrow-rotated.obj" preload="auto"></a-asset-item>
+	      <a-asset-item id="arrow-mtl" src="model/bowarrow/low-poly-arrow-obj/low-poly-arrow.mtl" preload="auto"></a-asset-item>
+	      <a-mixin id="arrowpool" dynamic-body="shape:box" scale="0.005 0.005 0.005" obj-model="obj: #arrow-obj; mtl: #arrow-mtl"></a-mixin>
+	      <audio id="arrow_release" src="sounds/arrow_release.mp3">
+	      <audio id="arrow_impact" src="sounds/arrow_impact.mp3">
+	      <audio id="draw_string" src="sounds/draw_string.mp3" >
+			</a-assets>
 			<a-sky src="bg/snow.jpg"></a-sky>
-			<a-image src="img/compass_black.png" rotation="-90 0 0" scale="2 2 2"></a-image>
-			<a-collada-model id="bow-model" src="model/bow.dae" position="-4.222 0 -1.16" rotation="0 111.95595316856286 0" scale="0.5 0.5 0.5" collada-model="model/bow.dae"></a-collada-model>
-			<a-collada-model id="arrow-model" src="model/arrow.dae" position="-1.032 0 -1.984" rotation="0 116.08124929350477 0" scale="0.5 0.5 0.5" collada-model="model/arrow.dae"></a-collada-model>
+			<a-entity ground position="4 0.1 5"></a-entity>
 
-			<a-camera camera="userHeight: 1.6"> 
-				<!-- <a-video src="video/ai3.mp4" position="0 0 -2.22" scale="3.72 1.988 1.988"></a-video> -->
+			 <!-- Sounds -->
+	    <a-sound id="arrow_release_sound" src="#arrow_release"  poolsize="4"></a-sound>
+	    <a-sound id="arrow_impact_sound"  src="#arrow_impact" poolsize="4"></a-sound>
+	    <a-sound id="draw_string_sound"  src="#draw_string" poolsize="4"></a-sound>
 
-				<a-plane height="2" width="3" material="side:double;emissive:#64dbdd" position="0 0 -2.211" scale="1.164 1.164 1.164">
-					<a-image src="img/intro03.gif" scale="2.223 1.383 1.383"></a-image><!-- gif is not play.. have to change to mp4 -->
-				</a-plane>
+	    <a-entity id="scene2">
+	      <a-entity id="preShotArrow" obj-model="obj: #arrow-obj; mtl: #arrow-mtl" position="0 0 0 " scale="0.05 0.05 0.05" visible="false"></a-entity>
+	      <a-entity id="bowContainer" bow-and-arrow position="-0.5 1 -0.5"></a-entity>
+	      <a-image src="img/compass_black.png" rotation="-90 0 0" scale="2 2 2"></a-image>
+	      <a-entity id="sunwrapper"></a-entity>
+	    </a-entity>
 
-				<a-text value="9 / 9  LEFT" position="-4.018 2.658 -3.435" text="color:white;value:9 / 9  evil sun left;align:center"></a-text>
-				
-				<a-plane position="3.905 2.598 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
-					<a-text value="DATE : 7849/08/22" text="align:left;color:black;" position="-0.95 0 0"></a-text>
-				</a-plane>
-				<a-plane position="3.905 2.105 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
-					<a-text value="TIME : 12:10:10" text="align:left;color:black;" position="-0.95 0 0"></a-text>
-				</a-plane>
-				<a-plane position="3.905 1.61 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
-					<a-text value="25.04 N, 121.53 E" text="align:left;color:black;" position="-0.95 0 0"></a-text>
-				</a-plane>
-			    <!-- <a-cursor></a-cursor> -->
+	    <!-- hands -->
+			<a-entity id="leftHand" hand-controls="left" aabb-collider="objects:#bow;" grab></a-entity>
+    	<a-entity id ="rightHand" hand-controls="right" aabb-collider="objects:#bow;" grab></a-entity>
+			<a-camera camera="userHeight: 1.6" look-controls> 
+        <a-plane id="scene2-intro" visible="true" height="2" width="3" material="side:double;emissive:#64dbdd" scale="1.164 1.164 1.164" position="0 0 -2.500">
+          <a-image src="img/intro03.gif" scale="2.8 1.855 1.383"></a-image>
+        </a-plane>
+      	<a-entity id="scene2-huds" visible="false">
+          <a-text id="scoreboard" value="9 / 9  LEFT" position="-2 0 -2.500" text="color:white;value:9 / 9  evil sun left;align:center"></a-text>
+          
+          <a-plane position="3.905 2.598 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+            <a-text value="DATE : 7849/08/22" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+          </a-plane>
+          <a-plane position="3.905 2.105 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+            <a-text value="TIME : 12:10:10" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+          </a-plane>
+          <a-plane position="3.905 1.61 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+            <a-text value="25.04 N, 121.53 E" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+          </a-plane>
+      	</a-entity>
 			</a-camera>
+    	<a-entity id="forest" poissondisc-forest></a-entity>
+
 		</a-scene>
 	</body>
 </html>

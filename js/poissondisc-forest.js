@@ -42,7 +42,7 @@ AFRAME.registerComponent('poissondisc-forest', {
             if (sample === undefined) {
                 return;
             }
-            var tree = this.createSingleTreeBlock();
+            var tree = this.createSingleTreeBlock(treeCount);
             var treePosition = new THREE.Vector3(sample[0], tree.getAttribute('height') / 2, sample[1]);
 
             tree.setAttribute('position', treePosition);
@@ -59,27 +59,25 @@ AFRAME.registerComponent('poissondisc-forest', {
         var widthTransform = this.data.width / 2;
 
         var position = new THREE.Vector3(-lengthTransform, 0, -widthTransform);
-
+        position.y = 4.5;
         this.el.setAttribute('position', position);
     },
 
-    createSingleTreeBlock: function(treeString) {
+    createSingleTreeBlock: function(sunIndex) {
         //created simple boxes with physics entities
-        var tree = document.createElement('a-box');
+        var sun = document.createElement('a-sphere');
         var height = 1 + Math.random() * 9;
-        tree.setAttribute('depth', '0.75');
-        tree.setAttribute('width', '0.75');
-        tree.setAttribute('height', height);
-        var which = Math.random();
-        if (which < 0.5) {
-            tree.setAttribute('color', 'green')
-            tree.setAttribute('dynamic-body', '')
-        } else {
-            tree.setAttribute('color', 'grey')
-            tree.setAttribute('static-body', '')
-        }
-
-        return tree;
+        sun.setAttribute('radius', '0.5');
+        sun.setAttribute('material', {shader: 'flat', color: "#f7ff2d"});
+        sun.setAttribute('light', {type: 'point', color: '#FFF'});
+        sun.setAttribute('static-body', '');
+        sun.setAttribute("animation__expand" + sunIndex, {"property" : "radius", "startEvents" : "sunShot", "to" : "2", "dur" : "200"})
+        sun.setAttribute("animation__fadeout" + sunIndex, {"property" : "material.opacity", "startEvents" : "sunShot", "to" : "0", "dur" : "300", "from" : "1", "easing": "linear"});
+        sun.addEventListener("collide",function(){
+            console.log("collided");
+            sun.emit("sunShot");
+        })
+        return sun;
 
     },
 

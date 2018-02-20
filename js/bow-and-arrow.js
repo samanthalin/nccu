@@ -110,7 +110,6 @@ AFRAME.registerComponent('bow-and-arrow', {
   },
 
   shootArrow: function(evt) {
-
     var _t = this;
 
     var sinceLastShot = Math.abs(this.lastShot - Date.now());
@@ -128,7 +127,7 @@ AFRAME.registerComponent('bow-and-arrow', {
       return;
     }
 
-    var scene = document.getElementById('scene');
+    var scene = document.getElementById('main-scene');
 
     var bow = this.bow;
 
@@ -139,7 +138,7 @@ AFRAME.registerComponent('bow-and-arrow', {
     if (arrow === undefined) {
       return;
     }
-
+    console.log(arrow,bowPosition);
     arrow.className = "arrow";
 
     arrow.addEventListener('collide', function(e) {
@@ -277,7 +276,7 @@ AFRAME.registerComponent('bow-and-arrow', {
 
     // arrow.removeAttribute('rotate-toward-velocity');
     this.playSound('arrow_impact_sound', arrow.getAttribute('position'))
-    var scene = document.getElementById('scene');
+    var scene = document.getElementById('main-scene');
 
 
     setTimeout(function removeArrow() {

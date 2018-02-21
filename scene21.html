@@ -5,7 +5,7 @@
 		<meta name="apple-mobile-web-app-capable">
 		<title>Game Scene 2</title>
 		<script type="text/javascript">
-			var SCENE = "desert";
+			var SCENE = "snow";
 		</script>
 		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
 		<!-- <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script> -->
@@ -24,8 +24,7 @@
 	  <script type="text/javascript" src="js/aframe-physics-system.v1.4.0.js"></script>
 	</head>
 	<body>
-		
-  	<script type="text/javascript" src="js/scenes/scene2.js"></script>
+  	<script type="text/javascript" src="js/scenes/scene21.js"></script>
 		<a-scene sun-shooting light="defaultLightsEnabled: false" id="main-scene" physics vr-mode-ui keyboard-shortcuts pool__arrow="mixin: arrowpool; size : 50;">
 			<a-assets>
 				<a-asset-item id="bow-obj" src="model/bowarrow/sg-bow-2-obj/sg-bow-2-rotated-nostring.obj" preload="auto"></a-asset-item>
@@ -36,8 +35,9 @@
 	      <audio id="arrow_release" src="sounds/arrow_release.mp3">
 	      <audio id="arrow_impact" src="sounds/arrow_impact.mp3">
 	      <audio id="draw_string" src="sounds/draw_string.mp3" >
+	      <video id="ai3-video" src="video/ai3.mp4" webkit-playsinline>
 			</a-assets>
-			<a-sky src="bg/desert.jpg"></a-sky>
+			<a-sky src="bg/snow.jpg"></a-sky>
 			<a-entity ground position="4 0.1 5"></a-entity>
 
 			 <!-- Sounds -->
@@ -72,9 +72,9 @@
             <a-text value="25.04 N, 121.53 E" text="align:left;color:black;" position="-0.95 0 0"></a-text>
           </a-plane>
       	</a-entity>
+      	<a-video visible="false" src="#ai3-video" id="player" position="0 0 -2.500" rotation="-0.34377467707849396 -1.4896902673401404 -0.11459155902616465" scale="3 3 3"></a-video>
 			</a-camera>
     	<a-entity id="forest" poissondisc-forest></a-entity>
-
 		</a-scene>
 	</body>
 </html>

@@ -12,7 +12,7 @@ AFRAME.registerComponent('poissondisc-forest', {
     schema: {
         samplecount: {
             type: 'int',
-            default: 20
+            default: 9
         },
         width: {
             type: 'int',
@@ -74,8 +74,25 @@ AFRAME.registerComponent('poissondisc-forest', {
         sun.setAttribute("animation__expand" + sunIndex, {"property" : "radius", "startEvents" : "sunShot", "to" : "2", "dur" : "200"})
         sun.setAttribute("animation__fadeout" + sunIndex, {"property" : "material.opacity", "startEvents" : "sunShot", "to" : "0", "dur" : "300", "from" : "1", "easing": "linear"});
         sun.addEventListener("collide",function(){
-            console.log("collided");
-            sun.emit("sunShot");
+          sun.emit("sunShot");
+          var scoreboard = document.getElementById("scoreboard"),
+              currentscore = parseInt(scoreboard.attributes["value"].value.substring(0,1));
+          currentscore--;
+          scoreboard.setAttribute("value", currentscore + "/ 9 evil suns left.");
+          if(currentscore == 0){
+            if(SCENE == "desert"){
+              window.location = "scene21.html";
+            }else if(SCENE == "snow"){
+              var player = document.getElementById("player");
+              var aivideo = document.getElementById("ai3-video");
+              var bow = document.getElementById('bow');
+              var huds = document.getElementById("scene2-huds");
+              player.setAttribute("visible","true");
+              bow.setAttribute("visible","false");
+              huds.setAttribute("visible","false");
+              aivideo.play();
+            }
+          }
         })
         return sun;
 

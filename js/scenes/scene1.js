@@ -12,19 +12,35 @@ AFRAME.registerComponent('room', {
     		grandmaVideo = document.getElementById("grandma-video"),
     		audio = document.getElementById("ding"),
         currentVideo = "news",
-        finish = document.getElementById("finish");
+        finish = document.getElementById("finish"),
+        grandma = 0,
+        controllers = {
+          "rightHand" : document.getElementById("rightHand"),
+          "leftHand" : document.getElementById("leftHand")
+        };
+    controllers.rightHand.addEventListener("menudown",function(){
+      replaySection.setAttribute("visible",false);
+      console.log("close", player.attributes["src"].value)
+      if(grandma == 0){
+        if(player.attributes["src"].value == "#news-video"){
+          setTimeout(function(){
+            player.setAttribute("src","#grandma-video");
+            grandmaMsg.setAttribute("visible",true);
+            audio.play();
+            grandma = true;
+          },3000)
+        }
+      }else if(grandma == 1){
+        player.setAttribute("visible",true);
+        grandmaMsg.setAttribute("visible",false);
+        grandmaVideo.play();
+        grandma = 2
+      }else if(grandma == 2){
+        replaySection.setAttribute("visible",false);
+      }
+    });
 
-    newsVideo.onended = function(){
-      replaySection.setAttribute("visible",true);
-      player.setAttribute("visible",false);
-    }
-
-    grandmaVideo.onended = function(){
-      replaySection.setAttribute("visible",true);
-      player.setAttribute("visible",false);
-    }
-
-    replayBtn.addEventListener("grab-start",function(){
+    controllers.leftHand.addEventListener("menudown",function(){
       replaySection.setAttribute("visible",false);
       console.log("replay", player.attributes["src"].value)
       player.setAttribute("visible",true);
@@ -35,24 +51,15 @@ AFRAME.registerComponent('room', {
       }
     })
 
-    closeBtn.addEventListener("grab-start",function(){
-      replaySection.setAttribute("visible",false);
-      console.log("close", player.attributes["src"].value)
-      if(player.attributes["src"].value == "#news-video"){
-        setTimeout(function(){
-          player.setAttribute("src","#grandma-video");
-          grandmaMsg.setAttribute("visible",true);
-          audio.play();
-          grandmaMsg.addEventListener("grab-start",function(){
-            player.setAttribute("visible",true);
-            grandmaMsg.setAttribute("visible",false);
-            grandmaVideo.play();
-          })
-        },3000)
-      }
-    })
+    newsVideo.onended = function(){
+      replaySection.setAttribute("visible",true);
+      player.setAttribute("visible",false);
+    }
 
-    
+    grandmaVideo.onended = function(){
+      replaySection.setAttribute("visible",true);
+      player.setAttribute("visible",false);
+    }
 
     setTimeout(function(){
       wallpaper.setAttribute("visible", true);

@@ -4,24 +4,56 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="apple-mobile-web-app-capable">
 		<title>scene4</title>
-		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script> 
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script>
+    <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+    <script src="https://unpkg.com/super-hands/dist/super-hands.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.js"></script>
+    <script src="https://dist.3d.io/3dio-js/1.x.x/3dio.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
 	</head>
 	<body>
-		<a-scene>
-			<a-image src="img/compass_black.png" rotation="-90.01166961505233 -35 0" scale="2.194 2.194 2.194"></a-image>
-			<a-collada-model src="model/solar_panels.dae" position="-2.153 0 -3.48" rotation="30 103.93454403673134 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
-			<a-collada-model src="model/solar_panels.dae" position="0 0 -3.48" rotation="30 103.93454403673134 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
-			<a-collada-model src="model/solar_panels.dae" position="2.187 0 -3.48" rotation="30 103.93454403673134 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
-			<a-collada-model src="model/solar_panels.dae" position="4.205 0 -3.48" rotation="30 103.93454403673134 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
+		<script type="text/javascript" src="js/scenes/scene4.js"></script>
+		<a-scene roof-top physics light="defaultLightsEnabled: false">
+			<a-assets>
+				<a-asset-item id="solar-panel" src="model/solar_panels.dae"></a-asset-item>
+				<a-mixin id="gazer" collision-filter="collisionForces: false"></a-mixin>
+	      <a-mixin id="pointer" collision-filter="collisionForces: false" >
+	      </a-mixin>
+	      <a-mixin id="ctrlr" physics-collider collision-filter="collisionForces: false" super-hands="colliderEvent: collisions; colliderEventProperty: els; colliderEndEvent: collisions; colliderEndEventProperty: clearedEls">
+	      </a-mixin>
+			</a-assets>
+			 <!-- player hands -->
+	    <!-- <a-entity id="player" progressive-controls="objects: [grabbable], [droppable], [clickable];gazeMixin: gazer; pointMixin: pointer; touchMixin: ctrlr"> -->
+	      <a-entity id="rightHand" hand-controls="right" class="right-controller"></a-entity>
+	      <a-entity id="leftHand" hand-controls="left" class="left-controller"></a-entity>
+	    <!-- </a-entity> -->
+			<a-entity id="panels">
+				<a-collada-model class="panel" src="#solar-panel" position="-2.153 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
+				<a-collada-model class="panel" src="#solar-panel" position="0 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
+				<a-collada-model class="panel" src="#solar-panel" position="2.187 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
+				<a-collada-model class="panel" src="#solar-panel" position="4.205 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels.dae"></a-collada-model>
+			</a-entity>
+
 			<a-sky src="bg/city.jpg" rotation="0 90 -5"></a-sky>
+
 			<a-camera>
 				
 				<!-- <a-image src="img/message-box.png" position="0 0 -0.789" scale="1.707 1 1">
 					<a-image src="img/intro04_1.gif"></a-image>
 					<a-image src="img/intro04_2.gif" scale="0.759 0.759 0.759"></a-image>
 				</a-image> -->
+
 				<a-video src="video/Dr2.mp4" position="0 0 -0.789" scale="1.707 1 1"></a-video>
+
+				 <a-text id="scoreboard" visible="false" position="0 0 -2.500" text="color:red;align:center"></a-text>
+
 			</a-camera>
+			<a-box id="teleport-range" position="0.159 0.05 0.048" material="visible:false" geometry="depth:4.53;height:0.01;width:4.67" scale="1.656 1 1.308"></a-box>
 		</a-scene>
 	</body>
 </html>

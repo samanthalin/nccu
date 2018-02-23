@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-  	<meta charset="utf-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-  	<meta name="apple-mobile-web-app-capable">
-  	<title>Game Scene 1</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable">
+    <title>Game Scene 1</title>
     <link rel="stylesheet" href="css/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script> 
 
-	  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script>
     <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
     <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
@@ -24,23 +24,28 @@
 </head>
 <body>
   <script type="text/javascript" src="js/scenes/scene1.js"></script>
-	<a-scene physics room light="defaultLightsEnabled: false" preloader="autoInject: true; clickToClose: true; target: #preloader-modal; bar: #preloader-modal .progress-bar; label: #preloader-modal .progress-label; labelText: Loading {0}%; doneLabelText: Press Start To Play!;">
+  <a-scene physics room light="defaultLightsEnabled: false">
 
-		<!-- assets -->
-		<a-assets>
+    <!-- assets -->
+    <a-assets>
       <img id="desert" src="bg/desert.jpg" preload="auto">
-			<img id="snow-img" src="bg/snow.jpg" preload="auto">
-			<img id="message-box" src="img/message-box.png" preload="auto">
-			<img id="new-message" src="img/new-message.jpg" preload="auto">
-			<img id="replay-btn" src="img/replay.png" preload="auto">
+      <img id="snow-img" src="bg/snow.jpg" preload="auto">
       <a-asset-item id="shelf" src="model/bookcase.dae" preload="auto"></a-asset-item>
       <a-asset-item id="bedroom-model" src="model/bedroom.dae" preload="auto"></a-asset-item>
       <a-asset-item id="arrow-bow-model" src="model/arrow_bow.dae" preload="auto"></a-asset-item>
       <a-asset-item id="book-model" src="model/book.dae" preload="auto"></a-asset-item>
       <a-mixin id="link-mixin" geometry="depth:0.13;height:0.1;width:0.11" material="visible:false"></a-mixin>
-      <video id="video" src="" loop="false" autoplay="false" webkit-playsinline></video>
+
+      <!-- message section -->
+      <img id="message-box" src="img/message-box.png" preload="auto">
+      <img id="grandma-message" src="img/grandma_message.png" preload="auto">
+      <img id="replay-btn" src="img/replay.png" preload="auto">
+      <img id="close-btn" src="img/close.png" preload="auto">
+      <video id="grandma-video" src="video/grandma1.mp4" webkit-playsinline></video>
+      <video id="news-video" src="video/news.mp4" webkit-playsinline></video>
       <audio id="ding" src="sounds/ding.mp3" webkit-playsinline></audio>
-      
+      <!-- message section end -->
+
       <a-mixin id="gazer" collision-filter="collisionForces: false"></a-mixin>
       <a-mixin id="pointer" collision-filter="collisionForces: false" 
                teleport-controls="cameraRig: #player; collisionEntities: #teleport-range">
@@ -53,14 +58,14 @@
     </a-assets>
 
     <!-- player hands -->
-		<a-entity id="player" progressive-controls="objects: [grabbable], [droppable], [clickable];gazeMixin: gazer; pointMixin: pointer; touchMixin: ctrlr">
+    <a-entity id="player" progressive-controls="objects: [grabbable], [droppable], [clickable];gazeMixin: gazer; pointMixin: pointer; touchMixin: ctrlr">
       <a-entity id="rightHand" hand-controls="right" class="right-controller"></a-entity>
       <a-entity id="leftHand" hand-controls="left" class="left-controller"></a-entity>
     </a-entity>
-			
+      
     <a-entity id="scene1">
-		<!-- bedroom -->
-  		<a-collada-model id="bedroom" src="#bedroom-model">
+    <!-- bedroom -->
+      <a-collada-model id="bedroom" src="#bedroom-model">
 
         <!-- table support -->
         <a-plane static-body="" id="tablesupport" position="-0.637 0.349 0.736" rotation="-90 0 0" scale="0.935 1.419 0.1" material="visible:false;"></a-plane>
@@ -75,8 +80,8 @@
         <!-- <a-plane static-body="sphereRadius:NaN" droppable="accepts:.boook;acceptEvent:droppedEvent" id="secret" position="-0.754 0.702 -0.93" scale="1 1 3.159" rotation="-89.09493714284301 -165.3556196747556 166.5588310445303" material=""></a-plane> -->
       
         <!-- -0.285 0 0 -->
-  			<!-- book-shelf -->
-  			<a-collada-model id="book-shelf" src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae"
+        <!-- book-shelf -->
+        <a-collada-model id="book-shelf" src="#shelf" position="-0.285 0 0" collada-model="model/bookcase.dae"
         event-set__onshelf="_event: droppedEvent; _target: #bookonshelf; visible: true" 
         event-set__secret="_event: droppedEvent; _target: #secret; visible: false" 
         event-set__book="_event: droppedEvent; _target: #book; visible: false" 
@@ -91,41 +96,34 @@
           <a-collada-model id="bookonshelf" src="#book-model" position="-3.23 1.194 -0.572" scale="1.863 1.863 1.863" collada-model="model/book.dae" rotation="0 -178.36176162422527 0" visible="false">
           </a-collada-model>
           <a-animation attribute="position" to="-0.285 0 1.532" dur="3000" begin="droppedEvent"></a-animation>
-  		  </a-collada-model>
+        </a-collada-model>
 
-  			<!-- bow -->
-    		<a-entity id="fakebow" src="#arrow-bow-model" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow_bow.dae">
+        <!-- bow -->
+        <a-entity id="fakebow" src="#arrow-bow-model" position="-3.476 0.304 0.107" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow_bow.dae">
         </a-entity>
         <a-entity id="finish" position="-3.879 1.081 0.019" geometry="depth:0.13;height:0.1;width:0.11" static-body material="visible:false" clickable="" ></a-entity>
 
         <a-link href="scene2.html" title="Scene 2" visible="false"></a-link>
 
-       <!--  <a-entity geometry="width:0.11;depth:0.13;height:0.1" static-body clickable id="fakebow" src="#bow-model" position="-3.476 0.304 0.107" event-set__success="_event:grab-start; _target:#bedroom; visible: false" rotation="24.579889411112315 -19.99622705006573 29.851101126315893" scale="0.027 0.027 0.027" collada-model="model/arrow.dae">
-          <a-box position="2.098 28.009 -9.345" scale="6.621 -6.169 6.223" ></a-box>
-        </a-entity> -->
-
-  			<!-- book -->
+        <!-- book -->
         <a-collada-model draggable grabbable="maxGrabbers:NaN" dynamic-body="sphereRadius:NaN" class="boook" id="book" src="#book-model" position="-0.601 0.473 0.541" scale="1.863 1.863 1.863" collada-model="model/book.dae">
           <a-box material="opacity:0" class="boook" position="0.047 0.068 0.008" scale="0.14 0.195 0.047"></a-box>
         </a-collada-model>
 
-  	    <!-- message box -->
-  			<a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="visible:false;" geometry="height: 0.5; primitive: plane" visible="false" id="wallpaper">
-  				<a-entity id="message1" class="clickable" text-geometry="value:NEWS VIDEO" position="1.196 -0.19 0.024" rotation="2.1199438419840457 175.78345154613658 1.8907607239317168" scale="0.625 0.673 1"></a-entity>
-  				<a-entity id="message2" text-geometry="value: New message recieved." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false">
-  					<a-entity id="new-message-icon" class="clickable" material="src: #new-message"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224" ></a-entity>
-  				</a-entity>
-  				<a-video id="video1" position="-0.303 -0.251 0.462" src="#video" width="16" height="9" scale="0.209 0.217 1" rotation="2.0053522829578814 178.5909447422776 1.9480565034447992" visible="false"></a-video>
-  				<a-entity id="message3" text-geometry="value: Replay message." position="1.196 -0.19 0.024" rotation="2.12 175.783 1.891" scale="0.411 0.673 1" visible="false">
-  					<a-entity id="replay-message" class="clickable" material="src: #replay-btn"  position="3.352 -0.568 0.441" geometry="primitive:plane;height:0.5" rotation="0.2291831180523293 3.323155211758775 0.2291831180523293" scale="1.167 1.088 2.224"></a-entity>
-  				</a-entity>
-  			</a-entity>
-  		</a-collada-model>
+        <!-- message box -->
+        <a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="visible:false;" visible="false" id="wallpaper">
+          <a-video id="video-player" position="-0.303 -0.251 0.462" src="#news-video" width="16" height="9" scale="0.209 0.217 1" rotation="2.0053522829578814 178.5909447422776 1.9480565034447992" visible="false"></a-video>
+          <a-entity id="replay-section" visible="false" position="-0.303 -0.251 0.462">
+            <a-image clickable static-body id="replayBtn" src="#replay-btn" position="0.642 -0.011 0.011"></a-image>
+            <a-image clickable static-body id="closeBtn" src="#close-btn" position="-0.841 0.014 -0.015"></a-image>
+          </a-entity>
+          <a-image visible="false" clickable static-body id="grandmaMsg" src="#grandma-message" position="-0.745 -0.243 0.454" rotation="2.0053522829578814 178.76283208081685 2.0053522829578814" scale="2.134 1.508 1"></a-image>
+        </a-entity>
+      </a-collada-model>
     </a-entity>
-		<a-sky src="#desert"></a-sky>
-		<a-camera camera="userHeight: 1.6"> 
-    </a-camera>
+    <a-sky src="#desert"></a-sky>
+    <a-camera camera="userHeight: 1.6"> </a-camera>
     <a-box id="teleport-range" position="0.159 0.05 0.048" material="visible:false" geometry="depth:4.53;height:0.01;width:4.67" scale="1.656 1 1.308"></a-box>
-	</a-scene>
+  </a-scene>
 </body>
 </html>

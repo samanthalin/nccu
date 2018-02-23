@@ -3,12 +3,16 @@ AFRAME.registerComponent("sun-shooting",{
   init : function(){
     this.totalSunShot = 9;
     this.scoreboard = document.getElementById("scoreboard");
+    this.aivideo = document.getElementById("ai3-video");
     this.controllers = {
       "rightHand" : document.getElementById("rightHand"),
       "leftHand" : document.getElementById("leftHand")
     }
     this.sunwrapper = document.getElementById("sunwrapper");
     this.controllers.rightHand.addEventListener("menudown",this.manageIntro);
+    this.aivideo.onended = function(){
+      window.location = "scene3.html";
+    }
   },
 
   manageIntro : function(evt){

@@ -3,46 +3,70 @@ AFRAME.registerComponent('room', {
 
 	init : function(){
     var wallpaper = document.getElementById('wallpaper'),
-    		message1 = document.getElementById("message1"),
-    		message2 = document.getElementById("message2"),
-    		message3 = document.getElementById("message3"),
-    		newMessageIcon = document.getElementById("new-message-icon"),
-    		replayBtn = document.getElementById("replay-message"),
-    		player = document.getElementById("video1"),
-    		video = document.getElementById("video"),
+    		grandmaMsg = document.getElementById("grandmaMsg"),
+        replaySection = document.getElementById("replay-section"),
+        replayBtn = document.getElementById("replayBtn"),
+    		closeBtn = document.getElementById("closeBtn"),
+    		player = document.getElementById("video-player"),
+        newsVideo = document.getElementById("news-video"),
+    		grandmaVideo = document.getElementById("grandma-video"),
     		audio = document.getElementById("ding"),
-        bookShelf = document.getElementById("book-shelf"),
-    		bookonshelf = document.getElementById("bookonshelf"),
-        book = document.getElementById("book"),
-    		secret = document.getElementById("secret"),
-    		bedroom = document.getElementById("bedroom"),
+        currentVideo = "news",
         finish = document.getElementById("finish"),
-        rightHandController = document.getElementById("rightHand"),
-        scene1 = document.getElementById("scene1"),
-        scene = this.el;
+        grandma = 0,
+        controllers = {
+          "rightHand" : document.getElementById("rightHand"),
+          "leftHand" : document.getElementById("leftHand")
+        };
+    controllers.rightHand.addEventListener("menudown",function(){
+      replaySection.setAttribute("visible",false);
+      console.log("close", player.attributes["src"].value)
+      if(grandma == 0){
+        if(player.attributes["src"].value == "#news-video"){
+          setTimeout(function(){
+            player.setAttribute("src","#grandma-video");
+            grandmaMsg.setAttribute("visible",true);
+            audio.play();
+            grandma = true;
+          },3000)
+        }
+      }else if(grandma == 1){
+        player.setAttribute("visible",true);
+        grandmaMsg.setAttribute("visible",false);
+        grandmaVideo.play();
+        grandma = 2
+      }else if(grandma == 2){
+        replaySection.setAttribute("visible",false);
+      }
+    });
 
-    wallpaper.setAttribute("visible", true);
+    controllers.leftHand.addEventListener("menudown",function(){
+      replaySection.setAttribute("visible",false);
+      console.log("replay", player.attributes["src"].value)
+      player.setAttribute("visible",true);
+      if(player.attributes["src"].value == "#news-video"){
+        newsVideo.play();
+      }else if(player.attributes["src"].value == "#grandma-video"){
+        grandmaVideo.play();
+      }
+    })
 
-    message1.addEventListener("click",function(){
-    	this.setAttribute("visible",false);
-    	message2.setAttribute("visible", true);
-    	audio.play();
-    	video.setAttribute("src","video/video.mp4");
-    })
-    video.onended = function(){
-  		player.setAttribute("visible",false);
-  		message3.setAttribute("visible",true);
-  	}
-    newMessageIcon.addEventListener("click",function(){
-    	message2.setAttribute("visible",false);
-    	player.setAttribute("visible",true);
-    	video.play();
-    })
-    replayBtn.addEventListener("click",function(){
-    	message3.setAttribute("visible",false);
-    	player.setAttribute("visible",true);
-    	video.play();
-    })
+    newsVideo.onended = function(){
+      replaySection.setAttribute("visible",true);
+      player.setAttribute("visible",false);
+    }
+
+    grandmaVideo.onended = function(){
+      replaySection.setAttribute("visible",true);
+      player.setAttribute("visible",false);
+    }
+
+    setTimeout(function(){
+      wallpaper.setAttribute("visible", true);
+      player.setAttribute("visible",true);
+      newsVideo.play();
+    },10000);
+
     finish.addEventListener("grab-start",function(){
       window.location = "scene2.html";
     })
@@ -50,27 +74,6 @@ AFRAME.registerComponent('room', {
 	}
 })
 
-
-var scene4 = function(scene){
-  var bedroom = document.getElementById("bedroom"),
-      message2 = document.getElementById("message2"),
-      message3 = document.getElementById("message3"),
-      message1 = document.getElementById("message1"),
-      video1 = document.getElementById("video1");
-
-  this.prepare = function(){
-    bedroom.setAttribute("scale","1 1 1");
-    message2.setAttribute("visible",true);
-    message1.setAttribute("visible",false);
-    message3.setAttribute("visible",false);
-    video1.setAttribute("src","video/video.mp4");
-
-    setTimeout(function(){
-      $("#backdrop").fadeOut();
-    }, 3000);
-  }
-  this.prepare();
-}
 // (function () {
 //      // switch to stereoscopic mode directly on page load, this needs to be after the a-scene loads.
 //      var scene = document.querySelector('a-scene');

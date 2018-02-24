@@ -4,35 +4,54 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="apple-mobile-web-app-capable">
 		<title>scene5</title>
-		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script> 
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.12.4/dist/aframe-extras.min.js"></script>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+    <script src="https://unpkg.com/super-hands/dist/super-hands.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.js"></script>
+    <script src="https://dist.3d.io/3dio-js/1.x.x/3dio.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
 		<script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
 	</head>
 	<body>
+		<script type="text/javascript" src="js/scenes/scene5.js"></script>
 		<a-scene>
-			<a-collada-model src="model/pn/pn.dae" position="0 -0.39 0" collada-model="model/pn/pn.dae"></a-collada-model>
-			<a-sky src="bg/s5.jpg"></a-sky>
-			<a-box position="-0.034 0.179 0.324" scale="3.262 -0.403 2.126" material="color:#b9fffa; opacity: 0.8;"></a-box>
-			<a-entity particle-system="preset:dust;particleCount:10000;color: #0000FF,#00FF00,#FF0000,#ff4e48" position="0 3.591 0" rotation="-40 4.8 -89"></a-entity>
-			
-			<a-entity id="org-e">
-				<a-sphere position="-1.041 0.117 0.897" scale="0.072 0.072 0.072" material="color:#3136ff" geometry=""></a-sphere>
-				<a-sphere position="0.474 0.117 0.897" scale="0.072 0.072 0.072" material="color:#3136ff"></a-sphere>
-				<a-sphere position="0.474 0.117 2.4" scale="0.072 0.072 0.072" material="color:#3136ff"></a-sphere>
-				<a-sphere position="-1.029 0.117 2.4" scale="0.072 0.072 0.072" material="color:#3136ff"><a-sphere>
-			</a-entity>
+			<a-assets>
+				<img src="bg/s5.jpg" id="sky-img">
+				<a-asset-item scr="model/pn/pn.dae" id="pn"></a-asset-item>
+			</a-assets>
+			<a-sphere id="test" material="color:blue;" radius="0.072" position="0 5 -5"></a-sphere>
+			<a-entity id="plate" position="0 -0.8 -5" rotation="0 90 0">
+				<a-collada-model src="#pn" collada-model="model/pn/pn.dae"></a-collada-model>
+				<a-box position="-0.034 0.179 0.324" scale="3.262 -0.403 2.126" material="color:#b9fffa; opacity: 0.8;"></a-box>
+				
+				<a-entity id="org-e">
+					<a-sphere position="-1.041 0.117 0.897" scale="0.072 0.072 0.072" material="color:#3136ff" geometry=""></a-sphere>
+					<a-sphere position="0.474 0.117 0.897" scale="0.072 0.072 0.072" material="color:#3136ff"></a-sphere>
+					<a-sphere position="0.474 0.117 2.4" scale="0.072 0.072 0.072" material="color:#3136ff"></a-sphere>
+					<a-sphere position="-1.029 0.117 2.4" scale="0.072 0.072 0.072" material="color:#3136ff"><a-sphere>
+				</a-entity>
 
-			<a-entity id="e-hole">
-				<a-sphere position="-0.938 0.086 -1.733" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000" geometry=""></a-sphere>
-				<a-sphere position="0.574 0.086 -1.718" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
-				<a-sphere position="0.574 0.086 -0.202" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
-				<a-sphere position="-0.934 0.086 -0.234" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
+				<a-entity id="e-hole">
+					<a-sphere position="-0.938 0.086 -1.733" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000" geometry=""></a-sphere>
+					<a-sphere position="0.574 0.086 -1.718" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
+					<a-sphere position="0.574 0.086 -0.202" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
+					<a-sphere position="-0.934 0.086 -0.234" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
+				</a-entity>
 			</a-entity>
-
+			<a-entity falling-electrons	></a-entity>
 			<a-camera>
-				<a-image src="img/intro05.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
+			<!-- 	<a-image src="img/intro05.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
 				<a-video src="video/Dr3.mp4" position="0 0 -0.789" scale="1.707 1 1"></a-video>
-				<a-image src="img/enter_scene6.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
+				<a-image src="img/enter_scene6.png" position="0 0 -0.789" scale="1.562 1 1"></a-image> -->
 			</a-camera>
+			<a-sky src="#sky-img"></a-sky>
+			<a-entity particle-system="preset:dust;particleCount:10000;color: #0000FF,#00FF00,#FF0000,#ff4e48" position="0 3.591 0" rotation="-40 4.8 -89"></a-entity>
+
 		</a-scene>
 	</body>
 </html>

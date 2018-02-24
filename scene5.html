@@ -26,9 +26,9 @@
 			</a-assets>
 			<a-entity id="plate" position="0 -0.8 -5" rotation="0 90 0">
 				<a-entity falling-electrons	></a-entity>
-				<a-collada-model src="#pn" collada-model="model/pn/pn.dae"></a-collada-model>
-				<a-box position="0.254 0.179 0.267" scale="2.987 -0.403 1.451" material="opacity:0.8;color:#b9fffa"></a-box>
-				
+				<!-- <a-collada-model src="#pn" collada-model="model/pn/pn.dae"></a-collada-model> -->
+				<a-box id="reacter" dynamic-body="mass:5000" position="0.254 0.179 0.267" scale="2.987 -0.403 1.451" material="opacity:0.8;color:#b9fffa"></a-box>
+				<a-plane static-body position="0.254 -0.064 0.267" scale="5 5 5" material="shader:flat;color:white" rotation="89.89707805602616 0 0"></a-plane>
 				<a-entity id="org-e">
 					<a-sphere position="-1.041 0.487 0.897" scale="0.072 0.072 0.072" material="color:#3136ff" geometry=""></a-sphere>
 					<a-sphere position="0.474 0.487 0.897" scale="0.072 0.072 0.072" material="color:#3136ff"></a-sphere>
@@ -45,6 +45,9 @@
 			</a-entity>
 			
 			<a-camera>
+				<a-text id="scoreboard"  position="1.5 1.5 -2.500" text="color:red;align:center" value="Energy Collected">
+					<a-text id="percent" position="-0.007 -0.298 0" text="align:center;color:red" value="0"></a-text>
+				</a-text>
 			<!-- 	<a-image src="img/intro05.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
 				<a-image src="img/intro05.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
 			 this probably will be a video to explain how to play 

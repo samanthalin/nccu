@@ -2,7 +2,7 @@ AFRAME.registerComponent("falling-electrons",{
 	schema: {
     samplecount: {
       type: 'int',
-      default: 100
+      default: 20
     },
     blueColor : {
     	type : "string",
@@ -38,7 +38,8 @@ AFRAME.registerComponent("falling-electrons",{
     }
   },
 	init : function(){
-		var electronWrapper = document.createElement("a-entity");
+		var electronWrapper = document.createElement("a-entity"),
+				reactor = document.getElementById("reacter");
 		this.totalElectronsFallen = 0;
 		electronWrapper.id = "electron-wrapper";
 		for(i = 0; i < this.data.samplecount; i++){
@@ -47,52 +48,82 @@ AFRAME.registerComponent("falling-electrons",{
 			if((i % 4) == 0){
 				color = this.data.blueColor;
 				colorName = "blue";
+				score = this.data.blueScore;
 			}else if((i % 3) == 0){
 				color = this.data.greenColor;
 				colorName = "green";
+				score = this.data.greenScore;
 			}else if((i % 2) == 0){
 				color = this.data.orangeColor;
 				colorName = "orange";
+				score = this.data.orangeScore;
 			}else if((i % 1) == 0){
 				color = this.data.redColor;
 				colorName = "red";
+				score = this.data.redScore;
 			}
-			var elec = this.getElectron(color, colorName, i);
+			var elec = this.getElectron(color, colorName, score, i);
 			electronWrapper.appendChild(elec);
 		}
+		reacter.addEventListener("collide",this.countScore);
 		this.el.appendChild(electronWrapper);
 		this.electronFallingTimer = setInterval(this.makeElectronsFall, 3000);
 	},
 
+	countScore : function(evt){
+		// var percent = document.getElementById("percent");
+		// var currentValue = parseInt(percent.attributes["value"].value);
+		// var sc = currentValue + score;
+		// if(sc > 100){
+		// 	sc = 100;
+		// }
+		// percent.setAttribute("value", sc);
+		// if(sc == 100){
+		// 	alert("done;")
+		// }
+		console.log(evt);
+	},
+
 	makeElectronsFall : function(){
 		var number = getRandomInteger(1,3);
-		this.totalElectronsFallen += number;
 		for(i = 0; i <= number; i++){
-			var electronNumber = getRandomInteger(1,101);
+			var electronNumber = getRandomInteger(1,21);
 			var electron = document.querySelector('a-sphere[data-index="' + electronNumber + '"]');
 			electron.setAttribute("visible","true");
 			electron.emit("dropElectron");
 		}
-		if(this.electronNumber >= 100){
-			clearInterval(this.electronFallingTimer);
-		}
 	},
 
-	getElectron : function(color, colorName, idx){
+	getElectron : function(color, colorName, score, idx){
 		var electron = document.createElement("a-sphere");
 		electron.setAttribute("class", colorName + " electron");
 		electron.setAttribute("data-index", idx);
 		electron.setAttribute("radius", 0.1);
 		electron.setAttribute("material","color:" + color);
 		electron.setAttribute("visible","false");
+		electron.setAttribute("static-body","");
 		var position = {
 			x : getRandomArbitrary(2,-2),
 			y : 10,
 			z : getRandomArbitrary(1.5, -1.5)
 		}
 		electron.setAttribute("position",position);
-		position.y = -20
-		electron.setAttribute("animation__drop" + idx, {"property" : "position", "startEvents" : "dropElectron", "to" : position, "dur" : 10000 })
+		position.y = -20;
+		switch(colorName){
+			case "blue":
+				dur = 3000;
+				break;
+			case "green":
+				dur = 5000;
+				break;
+			case "orange":
+				dur = 7000;
+				break;
+			case "red":
+				dur = 10000;
+				break;
+		}
+		electron.setAttribute("animation__drop" + idx, {"property" : "position", "startEvents" : "dropElectron", "to" : position, "dur" : dur });
 		return electron;
 	}
 })

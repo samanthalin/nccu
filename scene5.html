@@ -12,7 +12,7 @@
 			<a-collada-model src="model/pn/pn.dae" position="0 -0.39 0" collada-model="model/pn/pn.dae"></a-collada-model>
 			<a-sky src="bg/s5.jpg"></a-sky>
 			<a-box position="-0.034 0.179 0.324" scale="3.262 -0.403 2.126" material="color:#b9fffa; opacity: 0.8;"></a-box>
-			<a-entity particle-system="preset:dust;particleCount:10000" position="0 3.591 0" rotation="-40 4.8 -89"></a-entity>
+			<a-entity particle-system="preset:dust;particleCount:10000;color: #0000FF,#00FF00,#FF0000,#ff4e48" position="0 3.591 0" rotation="-40 4.8 -89"></a-entity>
 			
 			<a-entity id="org-e">
 				<a-sphere position="-1.041 0.117 0.897" scale="0.072 0.072 0.072" material="color:#3136ff" geometry=""></a-sphere>
@@ -27,6 +27,12 @@
 				<a-sphere position="0.574 0.086 -0.202" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
 				<a-sphere position="-0.934 0.086 -0.234" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
 			</a-entity>
+
+			<a-camera>
+				<a-image src="img/intro05.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
+				<a-video src="video/Dr3.mp4" position="0 0 -0.789" scale="1.707 1 1"></a-video>
+				<a-image src="img/enter_scene6.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
+			</a-camera>
 		</a-scene>
 	</body>
 </html>

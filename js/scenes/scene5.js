@@ -41,7 +41,6 @@ AFRAME.registerComponent("falling-electrons",{
 		var electronWrapper = document.createElement("a-entity");
 		this.totalElectronsFallen = 0;
 		electronWrapper.id = "electron-wrapper";
-		console.log(this.data.samplecount);
 		for(i = 0; i < this.data.samplecount; i++){
 			var color,
 					colorName;
@@ -62,17 +61,17 @@ AFRAME.registerComponent("falling-electrons",{
 			electronWrapper.appendChild(elec);
 		}
 		this.el.appendChild(electronWrapper);
-		this.electronFallingTimer = setInterval(this.makeElectronsFall, 1000);
+		this.electronFallingTimer = setInterval(this.makeElectronsFall, 3000);
 	},
 
 	makeElectronsFall : function(){
-		var number = this.getRandomInteger(1,6);
+		var number = getRandomInteger(1,3);
 		this.totalElectronsFallen += number;
 		for(i = 0; i <= number; i++){
-			var electronNumber = this.getRandomInteger(1,101);
+			var electronNumber = getRandomInteger(1,101);
 			var electron = document.querySelector('a-sphere[data-index="' + electronNumber + '"]');
 			electron.setAttribute("visible","true");
-			electron.setAttribute("dynamic-body", "mass:0.1;");
+			electron.emit("dropElectron");
 		}
 		if(this.electronNumber >= 100){
 			clearInterval(this.electronFallingTimer);
@@ -83,29 +82,30 @@ AFRAME.registerComponent("falling-electrons",{
 		var electron = document.createElement("a-sphere");
 		electron.setAttribute("class", colorName + " electron");
 		electron.setAttribute("data-index", idx);
-		electron.setAttribute("radius", 0.72);
+		electron.setAttribute("radius", 0.1);
+		electron.setAttribute("material","color:" + color);
 		electron.setAttribute("visible","false");
 		var position = {
-			x : this.getRandomArbitrary(2,-2),
+			x : getRandomArbitrary(2,-2),
 			y : 10,
-			z : this.getRandomArbitrary(1.5, -1.5)
+			z : getRandomArbitrary(1.5, -1.5)
 		}
 		electron.setAttribute("position",position);
+		position.y = -20
+		electron.setAttribute("animation__drop" + idx, {"property" : "position", "startEvents" : "dropElectron", "to" : position, "dur" : 10000 })
 		return electron;
-	},
-
-	getRandomArbitrary : function(max, min) {
-	  return Math.random() * (max - min) + min;
-	},
-
-	getRandomInteger : function(min, max){
-		min = Math.ceil(min);
-	  max = Math.floor(max);
-	  return Math.floor(Math.random() * (max - min)) + min;
 	}
 })
 
-//4 3
+var getRandomArbitrary = function(max, min) {
+  return Math.random() * (max - min) + min;
+}
+
+var getRandomInteger = function(min, max){
+	min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 
 

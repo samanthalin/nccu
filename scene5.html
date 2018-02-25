@@ -25,13 +25,19 @@
 			<a-assets>
 				<img src="bg/s5.jpg" id="sky-img">
 				<a-asset-item src="model/pn.dae" id="pn"></a-asset-item>
+				<video src="video/Dr3.mp4" id="dr3-video"></video>
+				<img src="img/intro05.png" id="intro-img">
 			</a-assets>
+			<!-- playing hands -->
+			<a-entity id="rightHand" hand-controls="right" class="right-controller"></a-entity>
+	    <a-entity id="leftHand" hand-controls="left" class="left-controller"></a-entity>
+
+	    
 			<a-entity falling-electrons	position="0 -0.8 -5"></a-entity>
 
 			<a-entity id="plate" position="0 -0.8 -5" rotation="0 90 0">
 				<a-collada-model scale="3.035 3.035 3.035" src="#pn" collada-model="model/pn.dae" position="0.131 -1.001 -0.691"></a-collada-model>
 				<a-box id="reacter" aabb-collider="objects: .electron;" position="0.254 0.179 0.267" scale="2.987 -0.403 1.451" material="opacity:0.8;color:#b9fffa"></a-box>
-				<!-- <a-plane static-body position="0.254 -0.064 0.267" scale="5 5 5" material="shader:flat;color:white" rotation="89.89707805602616 0 0"></a-plane> -->
 				<a-entity id="org-e">
 					<a-sphere class="jumping-electrons" 
 										id="electron1" 
@@ -114,29 +120,23 @@
 										material="color:#3136ff">						
 					</a-sphere>
 				</a-entity>
-
-				<a-entity id="e-hole">
-				<!-- 	<a-sphere position="-0.938 0.487 -1.71" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
-					<a-sphere position="0.574 0.487 -1.718" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
-					<a-sphere position="0.574 0.487 -0.202" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere>
-					<a-sphere position="-0.934 0.487 -0.234" scale="0.086 0.086 0.086" material="opacity:0.71;color:#fa613b;emissive:#000000"></a-sphere> -->
-				</a-entity>
 			</a-entity>
 			
 			<a-camera>
 				<a-text id="scoreboard"  position="1.5 1.5 -2.500" text="color:red;align:center" value="Energy Collected">
 					<a-text id="percent" position="-0.007 -0.298 0" text="align:center;color:red" value="0"></a-text>
 				</a-text>
-			<!-- 	<a-image src="img/intro05.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
-				<a-image src="img/intro05.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>
-			 this probably will be a video to explain how to play 
-				
-				<a-video src="video/Dr3.mp4" position="0 0 -0.789" scale="1.707 1 1"></a-video>
-				<a-image src="img/enter_scene6.png" position="0 0 -0.789" scale="1.562 1 1"></a-image> 
-				-->
+				<a-text id="timer" position="-1.5 1.5 -2.500" text="color:red;align:center" value="Time Remaining">
+					<a-text id="time" position="-0.007 -0.298 0" text="align:center;color:red" value="120 Secs"></a-text>
+				</a-text>
+				<a-video id="player" visible="false" src="#dr3-video" position="0 0 -3" scale="1.707 1 1"></a-video>
+				<a-image visible="true" id="intro" src="#intro-img" position="0 0 -0.789" scale="1.562 1 1"></a-image>
+
+				<!-- <a-image src="img/enter_scene6.png" position="0 0 -0.789" scale="1.562 1 1"></a-image>  -->
+			
 			</a-camera>
 			<a-sky src="#sky-img"></a-sky>
-			<a-entity particle-system="preset:dust;particleCount:10000;color: #0000FF,#00FF00,#FF0000,#ff4e48" position="0 3.591 0" rotation="-40 4.8 -89"></a-entity>
+			<!-- <a-entity particle-system="preset:dust;particleCount:10000;color: #0000FF,#00FF00,#FF0000,#ff4e48" position="0 3.591 0" rotation="-40 4.8 -89"></a-entity> -->
 
 		</a-scene>
 	</body>

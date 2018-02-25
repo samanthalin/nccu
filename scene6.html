@@ -9,8 +9,23 @@
 	</head>
 	<body>
 		<a-scene>
+			<a-assets>
+				<a-asset-item id="v2-obj" src="model/virus2/1409 Virus.obj" preload="auto"></a-asset-item>
+	      		<a-asset-item id="v2-mtl" src="model/virus2/1409 Virus.mtl" preload="auto"></a-asset-item>
+	      		<a-asset-item id="handle-obj" src="model/handle/obiwanone.obj" preload="auto"></a-asset-item>
+	      		<a-asset-item id="handle-mtl" src="model/handle/obiwanone.mtl" preload="auto"></a-asset-item>
+			</a-assets>
+
+			<a-entity obj-model="mtl:model/virus2/1409 Virus.mtl;obj:model/virus2/1409 Virus.obj" position="3.638 2.464 0" scale="0.053 0.053 0.053"></a-entity>
+
+			<a-entity obj-model="mtl:#handle-mtl; obj:#handle-obj"></a-entity>
+
 			<a-sky src="bg/s6.jpg"></a-sky>
 
+			<a-collada-model id="v1" src="model/virus/virus.dae" position="1.668 1.063 0" scale="0.521 0.521 0.521" collada-model="model/virus/virus.dae"></a-collada-model>
+			<a-collada-model id="v3" src="model/virus3.dae" position="-1.311 1.614 0" scale="0.548 0.548 0.548" collada-model="model/virus3.dae"></a-collada-model>
+
+			
 		</a-scene>
 	</body>
 </html>

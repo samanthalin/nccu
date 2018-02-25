@@ -1,4 +1,8 @@
-var totalHits = 0;
+var totalHits = 0,
+		totalScore = 0,
+		globalTimer = null,
+		globalTime = 120,
+		electronFallingTimer = null;
 
 AFRAME.registerComponent("falling-electrons",{
 	schema: {
@@ -41,8 +45,13 @@ AFRAME.registerComponent("falling-electrons",{
   },
 	init : function(){
 		var electronWrapper = document.createElement("a-entity"),
-				reactor = document.getElementById("reacter");
-		this.totalElectronsFallen = 0;
+				reactor = document.getElementById("reacter"),
+				plate = document.getElementById("plate");
+		var controllers = {
+			"rightHand" : document.getElementById("rightHand"),
+      "leftHand" : document.getElementById("leftHand")
+		}
+		var dr3video = document.getElementById("dr3-video");
 		electronWrapper.id = "electron-wrapper";
 		for(i = 0; i < this.data.samplecount; i++){
 			var color,
@@ -68,17 +77,34 @@ AFRAME.registerComponent("falling-electrons",{
 			electronWrapper.appendChild(elec);
 		}
 		this.el.appendChild(electronWrapper);
-		this.electronFallingTimer = setInterval(this.makeElectronsFall, 3000);
-	},
-
-	makeElectronsFall : function(){
-		var number = getRandomInteger(1,3);
-		for(i = 0; i <= number; i++){
-			var electronNumber = getRandomInteger(1,21);
-			var electron = document.querySelector('a-sphere[data-index="' + electronNumber + '"]');
-			electron.setAttribute("visible","true");
-			electron.emit("dropElectron");
+		
+		var position = {
+			x : 0,
+			y : -0.8,
+			z : -5
 		}
+		controllers.rightHand.addEventListener("trackpaddown",function(){
+			if(position.x < 3.6){
+				position.x = position.x + 0.2;
+			}
+			plate.setAttribute("position",position);
+		})
+		controllers.leftHand.addEventListener("trackpaddown",function(){
+			if(position.x > -3.1){
+				position.x = position.x - 0.2;
+			}
+			plate.setAttribute("position",position);
+		})
+
+		dr3video.onended = function(){
+			window.location = "scene6.html"
+		}
+
+		controllers.rightHand.addEventListener("menudown",function(){
+			document.getElementById("intro").setAttribute("visible","false");
+			electronFallingTimer = setInterval(makeElectronsFall, 3000);
+			globalTimer = setInterval(startGlobalTimer, 1000);
+		})
 	},
 
 	getElectron : function(color, colorName, score, idx){
@@ -114,14 +140,15 @@ AFRAME.registerComponent("falling-electrons",{
 		var percent = document.getElementById("percent");
 		electron.addEventListener("hitstart",function(evt){
 			totalHits++;
-			var currentValue = parseInt(percent.attributes["value"].value);
-			var sc = currentValue + score;
+			this.setAttribute("visible","false");
+			var sc = totalScore + score;
 			if(sc > 100){
 				sc = 100;
 			}
-			percent.setAttribute("value", sc);
+			totalScore = sc;
+			percent.setAttribute("value", sc + "%");
 			if(sc == 100){
-				// alert("done")
+				endGame();
 			}else{
 				if(totalHits == 2){
 					var ec5 = document.getElementById("electron5");
@@ -174,6 +201,34 @@ var getRandomInteger = function(min, max){
 	min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
+}
+
+var endGame = function(){
+	var video = document.getElementById("dr3-video");
+	var player = document.getElementById("player");
+	player.setAttribute("visible",true);
+	video.play();
+	clearInterval(this.electronFallingTimer);
+	clearInterval(globalTimer);
+}
+
+var startGlobalTimer = function(){
+	var time = document.getElementById("time");
+	globalTime--;
+	time.setAttribute("value",globalTime + " Secs");
+	if(globalTime == 0){
+		endGame();
+	}
+}
+
+var	makeElectronsFall = function(){
+	var number = getRandomInteger(1,3);
+	for(i = 0; i <= number; i++){
+		var electronNumber = getRandomInteger(1,21);
+		var electron = document.querySelector('a-sphere[data-index="' + electronNumber + '"]');
+		electron.setAttribute("visible","true");
+		electron.emit("dropElectron");
+	}
 }
 
 

@@ -1,3 +1,5 @@
+var totalHits = 0;
+
 AFRAME.registerComponent("falling-electrons",{
 	schema: {
     samplecount: {
@@ -65,23 +67,8 @@ AFRAME.registerComponent("falling-electrons",{
 			var elec = this.getElectron(color, colorName, score, i);
 			electronWrapper.appendChild(elec);
 		}
-		reacter.addEventListener("collide",this.countScore);
 		this.el.appendChild(electronWrapper);
 		this.electronFallingTimer = setInterval(this.makeElectronsFall, 3000);
-	},
-
-	countScore : function(evt){
-		// var percent = document.getElementById("percent");
-		// var currentValue = parseInt(percent.attributes["value"].value);
-		// var sc = currentValue + score;
-		// if(sc > 100){
-		// 	sc = 100;
-		// }
-		// percent.setAttribute("value", sc);
-		// if(sc == 100){
-		// 	alert("done;")
-		// }
-		console.log(evt);
 	},
 
 	makeElectronsFall : function(){
@@ -96,7 +83,7 @@ AFRAME.registerComponent("falling-electrons",{
 
 	getElectron : function(color, colorName, score, idx){
 		var electron = document.createElement("a-sphere");
-		electron.setAttribute("class", colorName + " electron");
+		electron.setAttribute("class",colorName + " electron");
 		electron.setAttribute("data-index", idx);
 		electron.setAttribute("radius", 0.1);
 		electron.setAttribute("material","color:" + color);
@@ -123,6 +110,57 @@ AFRAME.registerComponent("falling-electrons",{
 				dur = 10000;
 				break;
 		}
+		var jumpingElectrons = document.querySelectorAll(".jumping-electrons");
+		var percent = document.getElementById("percent");
+		electron.addEventListener("hitstart",function(evt){
+			totalHits++;
+			var currentValue = parseInt(percent.attributes["value"].value);
+			var sc = currentValue + score;
+			if(sc > 100){
+				sc = 100;
+			}
+			percent.setAttribute("value", sc);
+			if(sc == 100){
+				// alert("done")
+			}else{
+				if(totalHits == 2){
+					var ec5 = document.getElementById("electron5");
+					var ec6 = document.getElementById("electron6");
+					var ec1 = document.getElementById("electron1");
+					var ec2 = document.getElementById("electron2");
+					ec5.setAttribute("position","-0.938 0.487 -1.71");
+					ec6.setAttribute("position","0.574 0.487 -1.718");
+					ec5.setAttribute("visible","true");
+					ec6.setAttribute("visible","true");
+					ec1.setAttribute("visible","false");
+					ec2.setAttribute("visible","false");
+				}else if(totalHits == 3){
+					var ec7 = document.getElementById("electron7");
+					var ec8 = document.getElementById("electron8");
+					var ec3 = document.getElementById("electron3");
+					var ec4 = document.getElementById("electron4");
+					ec7.setAttribute("position","0.574 0.487 -0.202");
+					ec8.setAttribute("position","-0.934 0.487 -0.234");
+					ec7.setAttribute("visible","true");
+					ec8.setAttribute("visible","true");
+					ec3.setAttribute("visible","false");
+					ec4.setAttribute("visible","false");
+				}else if(totalHits == 4){
+					var ec1 = document.getElementById("electron1");
+					var ec2 = document.getElementById("electron2");
+					ec1.setAttribute("visible","true");
+					ec2.setAttribute("visible","true");
+				}else if(totalHits == 5){
+					var ec3 = document.getElementById("electron3");
+					var ec4 = document.getElementById("electron4");
+					ec3.setAttribute("visible","true");
+					ec4.setAttribute("visible","true");
+				}
+				jumpingElectrons.forEach(function(elec){
+					elec.emit("electronJump");
+				})
+			}
+		})
 		electron.setAttribute("animation__drop" + idx, {"property" : "position", "startEvents" : "dropElectron", "to" : position, "dur" : dur });
 		return electron;
 	}

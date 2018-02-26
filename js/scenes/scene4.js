@@ -5,12 +5,16 @@ AFRAME.registerComponent("roof-top",{
       "leftHand" : document.getElementById("leftHand")
 		}
 		var scoreboardDsplayed = false;
+		var video = document.getElementById("drVideo");
 		var score = {
 			x : 0,
 			y : 0,
 			total : 0
 		}
 		var rotation = {x : 30, y: 105, z: 0};
+		video.onended = function(){
+			window.location = "scene5.html";
+		}
 		controllers.rightHand.addEventListener("trackpaddown",function(){
 			if(!scoreboardDsplayed){
 				rotation.x = rotation.x + 10;
@@ -38,13 +42,23 @@ AFRAME.registerComponent("roof-top",{
 		})
 
 		controllers.rightHand.addEventListener("triggerdown",function(){
+			var sun = document.getElementById("sun");
 			scoreboardDsplayed = true;
 			score.x = Math.ceil(Math.abs(180 - rotation.x) * 8.333);
 			score.y = Math.ceil(Math.abs(180 - Math.abs(rotation.y - 105)) * 8.333);
 			score.total = score.x + score.y;
-			var scoreboard = document.getElementById("scoreboard");
-			scoreboard.setAttribute("value","Total Energy Collected : " + score.total + " / 3000");
-			scoreboard.setAttribute("visible", true);
+			sun.addEventListener("animationcomplete",function(){
+				var scoreboard = document.getElementById("scoreboard");
+				scoreboard.setAttribute("value","Total Energy Collected : " + score.total + " / 3000");
+				scoreboard.setAttribute("visible", true);
+				var video = document.getElementById("drVideo");
+				var player = document.getElementById("player");
+				player.setAttribute("visible","true");
+				video.play();
+			})
+			sun.emit("sunset");
+			window.localStorage.setItem("energy", score.total);
+			
 		})
 	}
 })

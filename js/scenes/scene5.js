@@ -146,6 +146,7 @@ AFRAME.registerComponent("falling-electrons",{
 				sc = 100;
 			}
 			totalScore = sc;
+			window.localStorage.setItem("percent", totalScore);
 			percent.setAttribute("value", sc + "%");
 			if(sc == 100){
 				endGame();

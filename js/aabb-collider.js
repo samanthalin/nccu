@@ -9,7 +9,7 @@
  * @property {string} state - State to set on collided entities.
  *
  */
-AFRAME.registerComponent('aabb-collider', {
+AFRAME.registerComponent('aabb-collider1', {
   schema: {
     objects: {default: ''},
     state: {default: 'collided'}

@@ -17,6 +17,7 @@
 		<script src="https://unpkg.com/aframe-animation-component@4.0.0-beta8/dist/aframe-animation-component.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
     <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+		<script type="text/javascript" src="js/progress-bar.js"></script>
 	</head>
 	<body>
 		<script type="text/javascript" src="js/scenes/scene5.js"></script>
@@ -124,6 +125,7 @@
 			<a-camera>
 				<a-text id="scoreboard"  position="1.5 1.5 -2.500" text="color:red;align:center" value="Energy Collected">
 					<a-text id="percent" position="-0.007 -0.298 0" text="align:center;color:red" value="0"></a-text>
+					<a-entity progress-bar position="-0.5 -0.5 0"></a-entity>
 				</a-text>
 				<a-text id="timer" position="-1.5 1.5 -2.500" text="color:red;align:center" value="Time Remaining">
 					<a-text id="time" position="-0.007 -0.298 0" text="align:center;color:red" value="120 Secs"></a-text>

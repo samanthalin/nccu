@@ -100,11 +100,11 @@ AFRAME.registerComponent("falling-electrons",{
 			window.location = "scene6.html"
 		}
 
-		controllers.rightHand.addEventListener("menudown",function(){
+		// controllers.rightHand.addEventListener("menudown",function(){
 			document.getElementById("intro").setAttribute("visible","false");
 			electronFallingTimer = setInterval(makeElectronsFall, 3000);
 			globalTimer = setInterval(startGlobalTimer, 1000);
-		})
+		// })
 	},
 
 	getElectron : function(color, colorName, score, idx){
@@ -148,6 +148,10 @@ AFRAME.registerComponent("falling-electrons",{
 			totalScore = sc;
 			window.localStorage.setItem("percent", totalScore);
 			percent.setAttribute("value", sc + "%");
+			var bar = document.getElementById("progress-bar");
+			bar.emit("updateBar",{
+				percentage : sc
+			})
 			if(sc == 100){
 				endGame();
 			}else{

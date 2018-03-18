@@ -17,6 +17,7 @@
 		<script src="https://unpkg.com/aframe-animation-component@4.0.0-beta8/dist/aframe-animation-component.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
     <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+		
 		<script type="text/javascript" src="js/progress-bar.js"></script>
 	</head>
 	<body>
@@ -57,7 +58,8 @@
 										id="electron3" 
 										animation__jump3="property:position;startEvents:electronJump;from:0.474 0.487 2.4;to: 0.474 0.487 15;dur:1000;" 
 										position="0.474 0.487 2.4" 
-										scale="0.072 0.072 0.072" 
+										scale="0.072 0.072 0.072"
+										alongpath="path:2,2,-5 -2,1,-2.5 0,1,-1; closed:false; dur:5000; delay:4000"
 										material="color:#3136ff">						
 					</a-sphere>
 					<a-sphere class="jumping-electrons" 
@@ -65,6 +67,7 @@
 										animation__jump4="property:position;startEvents:electronJump;from:-1.029 0.487 2.4;to: -1.029 0.487 15;dur:1000;" 
 										position="-1.029 0.487 2.4" 
 										scale="0.072 0.072 0.072" 
+										alongpath="path:2,2,-5 -2,1,-2.5 0,1,-1; closed:false; dur:5000; delay:4000"
 										material="color:#3136ff">						
 					</a-sphere>
 

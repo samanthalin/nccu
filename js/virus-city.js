@@ -100,6 +100,7 @@ AFRAME.registerComponent("virus-city",{
 				var energybar = document.getElementById("energybar");
 				var killedbar = document.getElementById("killedbar");
 				totalEnergy -= energy;
+				this.setAttribute("opacity", power / 100);
 				energybar.setAttribute("value",totalEnergy);
 				if(power <= 0){
 					enemiesKilled++;

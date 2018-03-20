@@ -122,6 +122,7 @@ AFRAME.registerComponent("virus-city",{
 			})
 			
 			controllers.rightHand.addEventListener("menudown",function(){
+				document.getElementById("scene6-intro").setAttribute("visible", false);
 				var virus = document.querySelector("a-entity[data-index='0']");
 				virus.emit("spawnEnemy");
 			})

@@ -100,11 +100,11 @@ AFRAME.registerComponent("falling-electrons",{
 			window.location = "scene6.html"
 		}
 
-		// controllers.rightHand.addEventListener("menudown",function(){
-			document.getElementById("intro").setAttribute("visible","false");
+		controllers.rightHand.addEventListener("menudown",function(){
+			document.getElementById("scene5-intro").setAttribute("visible","false");
 			electronFallingTimer = setInterval(makeElectronsFall, 3000);
 			globalTimer = setInterval(startGlobalTimer, 1000);
-		// })
+		})
 	},
 
 	getElectron : function(color, colorName, score, idx){

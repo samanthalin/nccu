@@ -13,15 +13,18 @@ AFRAME.registerComponent('room', {
     		audio = document.getElementById("ding"),
         currentVideo = "news",
         finish = document.getElementById("finish"),
-        grandma = 0,
+        grandma = -1,
         controllers = {
           "rightHand" : document.getElementById("rightHand"),
           "leftHand" : document.getElementById("leftHand")
         };
     controllers.rightHand.addEventListener("menudown",function(){
       replaySection.setAttribute("visible",false);
-      console.log("close", player.attributes["src"].value)
-      if(grandma == 0){
+      if(grandma == -1){
+        var intro = document.getElementById("scene1-intro");
+        intro.setAttribute("visible", false);
+        grandma = 0;
+      }else if(grandma == 0){
         if(player.attributes["src"].value == "#news-video"){
           setTimeout(function(){
             player.setAttribute("src","#grandma-video");

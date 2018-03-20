@@ -21,6 +21,8 @@
     <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
     <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://unpkg.com/aframe-animation-component@4.0.0-beta8/dist/aframe-animation-component.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script> 
+    <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
   </head>
 </head>
 <body>
@@ -35,6 +37,8 @@
       <a-asset-item id="bedroom-model" src="model/bedroom.dae" preload="auto"></a-asset-item>
       <a-asset-item id="arrow-bow-model" src="model/arrow_bow.dae" preload="auto"></a-asset-item>
       <a-asset-item id="book-model" src="model/book.dae" preload="auto"></a-asset-item>
+      <a-asset-item id="desk-mtl" src="model/DESK/DESK.mtl" preload="auto"></a-asset-item>
+      <a-asset-item id="desk-obj" src="model/DESK/DESK.obj" preload="auto"></a-asset-item>
       <a-mixin id="link-mixin" geometry="depth:0.13;height:0.1;width:0.11" material="visible:false"></a-mixin>
 
       <!-- message section -->
@@ -110,7 +114,8 @@
         <a-collada-model draggable grabbable="maxGrabbers:NaN" dynamic-body="sphereRadius:NaN" class="boook" id="book" src="#book-model" position="-0.601 0.473 0.541" scale="1.863 1.863 1.863" event__pickedup="property: glow.enabled; startEvents: ondragstart; to: true" collada-model="model/book.dae">
           <a-box material="opacity:0" class="boook" position="0.047 0.068 0.008" scale="0.14 0.195 0.047"></a-box>
         </a-collada-model>
-
+        <a-entity id="desk" scale="0.02 0.02 0.02" obj-model="obj: #desk-obj; mtl: #desk-mtl;" position="-0.324 0 0">
+        </a-entity>
         <!-- message box -->
         <a-entity position="-0.935 1.7 2.359" rotation="1 1 1" material="visible:false;" visible="false" id="wallpaper">
           <a-video id="video-player" position="-0.303 -0.251 0.462" src="#news-video" width="16" height="9" scale="0.209 0.217 1" rotation="2.0053522829578814 178.5909447422776 1.9480565034447992" visible="false"></a-video>
@@ -123,7 +128,11 @@
       </a-collada-model>
     </a-entity>
     <a-sky src="#desert"></a-sky>
-    <a-camera camera="userHeight: 1.6"> </a-camera>
+    <a-camera camera="userHeight: 1.6">
+      <a-plane id="scene1-intro" height="2" width="3" material="opacity:0;side:double;color:black" scale="0.19 0.197 0.528" position="0 0 -0.464">
+          <a-entity geometry="primitive:plane" scale="2.8 1.855 1.383" position="0 0 0.02" material="shader:gif; src:url(img/intro/intros1.gif);" gif=""></a-entity>
+      </a-plane>
+    </a-camera>
     <a-box id="teleport-range" position="0.159 0.05 0.048" material="visible:false" geometry="depth:4.53;height:0.01;width:4.67" scale="1.656 1 1.308"></a-box>
   </a-scene>
 </body>

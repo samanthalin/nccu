@@ -36,6 +36,8 @@
 	               super-hands="colliderEvent: collisions; colliderEventProperty: els; colliderEndEvent: collisions; colliderEndEventProperty: clearedEls"
 	               teleport-controls="cameraRig: #player; collisionEntities: #teleport-range">
 	      </a-mixin>
+	      <a-asset-item id="desk-mtl" src="model/DESK/DESK.mtl" preload="auto"></a-asset-item>
+        <a-asset-item id="desk-obj" src="model/DESK/DESK.obj" preload="auto"></a-asset-item>
 			</a-assets>
 			<!-- player hands -->
 	    <a-entity id="player" progressive-controls="objects: [grabbable], [droppable], [clickable];gazeMixin: gazer; pointMixin: pointer; touchMixin: ctrlr">
@@ -43,15 +45,15 @@
 	      <a-entity id="leftHand" hand-controls="left" class="left-controller"></a-entity>
 	    </a-entity>
 			<a-collada-model id="bedroom" src="model/bedroom.dae">
-				<a-collada-model src="model/desk.dae" position="-0.324 0 0" collada-model="model/desk.dae">
-					<a-entity id="box-cover" visible="false">
+				<a-entity id="desk" scale="0.02 0.02 0.02" obj-model="obj: #desk-obj; mtl: #desk-mtl;" position="-0.324 0 0">
+					<a-entity id="box-cover" visible="false" scale="1.1 1.1 1.1">
 						<a-collada-model id="boxdown" src="model/boxdown.dae" position="-0.326 0.427 1.2" collada-model="model/boxdown.dae"></a-collada-model>
 						<a-collada-model id="boxup" src="model/boxup.dae" position="-0.327 0.44 1.2" collada-model="model/boxup.dae">
 						</a-collada-model>
 						<a-box grabbable="maxGrabbers:NaN" static-body="sphereRadius:NaN" id="box-grabber" position="-0.421 0.507 1.011" scale="0.145 0.17 0.132" material="opacity:0;">
 						</a-box>
 					</a-entity>
-				</a-collada-model>
+				</a-entity>
 				<a-collada-model src="model/bookcase_havebook.dae"></a-collada-model>
 				<a-entity id="message-area">
 					<a-image visible="false" id="drMsg" src="#msg" position="-1.244 1.399 2.855" rotation="0 180.02333923010465 0" scale="3.23 1.904 1.883">
@@ -63,7 +65,7 @@
           </a-entity>
 				</a-entity>
 			</a-collada-model>
-			<a-camera camera="userHeight: 1.6"> </a-camera>
+			<a-camera camera="userHeight: 1.6"></a-camera>
 	    <a-box id="teleport-range" position="0.159 0.05 0.048" material="visible:false" geometry="depth:4.53;height:0.01;width:4.67" scale="1.656 1 1.308"></a-box>
 			</a-scene>
 	</body>

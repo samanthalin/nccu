@@ -9,6 +9,10 @@ AFRAME.registerComponent("sun-shooting",{
     }
     this.sunwrapper = document.getElementById("sunwrapper");
     this.controllers.rightHand.addEventListener("menudown",this.manageIntro);
+    var realSun = document.getElementById("real-sun");
+    realSun.addEventListener("collide",function(){
+      window.location = "scene2.html";
+    })
   },
 
   manageIntro : function(evt){

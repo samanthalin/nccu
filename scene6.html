@@ -17,6 +17,8 @@
 	  <script src="js/light-saber.js"></script>
 	  <script src="js/rotate-toward-velocity.js"></script>
 	  <script src="js/virus-city.js"></script>
+	  <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script> 
+    <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
 	</head>
 	<body>
 		<script type="text/javascript" src="js/scenes/scene6.js"></script>
@@ -36,7 +38,7 @@
 			<a-entity id="leftHand" hand-controls="left" aabb-collider1="objects:#saber;" grab></a-entity>
     	<a-entity id ="rightHand" hand-controls="right" aabb-collider1="objects:#saber;" grab></a-entity>
 	
-			<a-entity virus-city position="0 0 0"></a-entity>
+			<!-- <a-entity virus-city position="0 0 0"></a-entity> -->
 
 			<a-sky src="bg/s6.jpg"></a-sky>
 				
@@ -46,10 +48,13 @@
 			<a-collada-model id="v3" src="model/virus3.dae" position="-1.311 1.614 0" scale="0.548 0.548 0.548" collada-model="model/virus3.dae"></a-collada-model> -->
 			<!-- <a-entity position="0 1.6 0"> -->
 			<a-camera  camera="userHeight: 1.6" look-controls>
-					<a-text id="scoreboard"  position="1.5 1.5 -2.500" text="color:green;align:center" value="Energy Left">
+				<a-plane id="scene6-intro" height="2" width="3" material="opacity:0;side:double;color:black" scale="0.19 0.197 0.528" position="0 0 -0.464">
+          <a-entity geometry="primitive:plane" scale="2.8 1.855 1.383" position="0 0 0.02" material="shader:gif; src:url(img/intro/intros6.gif);" gif=""></a-entity>
+      	</a-plane>s
+					<a-text id="scoreboard"  position="1.5 1.5 -2.500" text="color:yellow;align:center" value="Energy Left">
 						<a-text id="energybar" position="-0.007 -0.298 0" text="align:center;color:red"></a-text>
 					</a-text>
-					<a-text id="enemiesboard"  position="-1.5 1.5 -2.500" text="color:green;align:center" value="Enemies killed">
+					<a-text id="enemiesboard"  position="-1.5 1.5 -2.500" text="color:yellow;align:center" value="Enemies killed">
 						<a-text id="killedbar" position="-0.007 -0.298 0" text="align:center;color:red" value="0"></a-text>
 					</a-text>
 					<a-text id="gameover" visible="false" position="0 0 -1.500" text="color:red;align:center;height:3; width: 5;"></a-text>
@@ -64,7 +69,7 @@
 				</a-camera>
 			<!-- </a-entity> -->
 			<a-collada-model id="v3" src="model/virus3.dae" position="-1.311 1.614 0" scale="0.548 0.548 0.548" collada-model="model/virus3.dae"></a-collada-model>
-			<a-gltf-model src="model/handle/scene.gltf" position="0.616 0 -2.004" scale="0.027 0.027 0.027" gltf-model="model/handle/scene.gltf"></a-gltf-model>
+			<!-- <a-gltf-model src="model/handle/scene.gltf" position="0.616 0 -2.004" scale="0.027 0.027 0.027" gltf-model="model/handle/scene.gltf"></a-gltf-model> -->
 			
 			
 		</a-scene>

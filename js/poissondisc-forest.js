@@ -12,7 +12,7 @@ AFRAME.registerComponent('poissondisc-forest', {
     schema: {
         samplecount: {
             type: 'int',
-            default: 9
+            default: 5
         },
         width: {
             type: 'int',

@@ -13,6 +13,10 @@ AFRAME.registerComponent("sun-shooting",{
     this.aivideo.onended = function(){
       window.location = "scene3.html";
     }
+    var realSun = document.getElementById("real-sun");
+    realSun.addEventListener("collide",function(){
+      window.location = "scene21.html";
+    })
   },
 
   manageIntro : function(evt){

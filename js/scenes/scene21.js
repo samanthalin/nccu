@@ -22,13 +22,8 @@ AFRAME.registerComponent("sun-shooting",{
   manageIntro : function(evt){
     var scene2intro = document.getElementById("scene2-intro"),
         huds = document.getElementById("scene2-huds");
-    if(scene2intro.attributes["visible"].value == "true"){
-      scene2intro.setAttribute("visible","false");
-      huds.setAttribute("visible","true");
-    }else if(scene2intro.attributes["visible"].value == "false"){
-      scene2intro.setAttribute("visible","true");
-      huds.setAttribute("visible","false");
-    }
+    scene2intro.setAttribute("visible","false");
+    huds.setAttribute("visible","true");
   }
 })
 (function () {

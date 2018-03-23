@@ -22,9 +22,9 @@
   </head>
   <body>
     <script type="text/javascript" src="js/scenes/scene4.js"></script>
-    <a-scene roof-top physics light="defaultLightsEnabled: false">
+    <a-scene roof-top physics>
       <a-assets>
-        <a-asset-item id="solar-panel" src="model/solar_panels/Solarpanels.dae"></a-asset-item>
+        <a-asset-item id="solar-panel" src="model/solar/model.dae"></a-asset-item>
         <a-mixin id="gazer" collision-filter="collisionForces: false"></a-mixin>
         <a-mixin id="pointer" collision-filter="collisionForces: false" >
         </a-mixin>
@@ -38,15 +38,18 @@
         <a-entity id="leftHand" hand-controls="left" class="left-controller"></a-entity>
       <!-- </a-entity> -->
       <a-entity id="panels">
-        <a-collada-model class="panel" src="#solar-panel" position="-2.153 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels/Solarpanels.dae"></a-collada-model>
-        <a-collada-model class="panel" src="#solar-panel" position="0 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels/Solarpanels.dae"></a-collada-model>
-        <a-collada-model class="panel" src="#solar-panel" position="2.187 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels/Solarpanels.dae"></a-collada-model>
-        <a-collada-model class="panel" src="#solar-panel" position="4.205 0 -3.48" rotation="30 105 0" scale="0.154 0.154 0.154" collada-model="model/solar_panels/Solarpanels.dae"></a-collada-model>
+        <a-collada-model class="panel" src="#solar-panel" position="-2.153 0 -3.48" rotation="30 105 0" collada-model="model/solar/model.dae"></a-collada-model>
+        <a-collada-model class="panel" src="#solar-panel" position="0 0 -3.48" rotation="30 105 0" collada-model="model/solar/model.dae"></a-collada-model>
+        <a-collada-model class="panel" src="#solar-panel" position="2.187 0 -3.48" rotation="30 105 0" collada-model="model/solar/model.dae"></a-collada-model>
+        <a-collada-model class="panel" src="#solar-panel" position="4.205 0 -3.48" rotation="30 105 0" collada-model="model/solar/model.dae"></a-collada-model>
       </a-entity>
       <a-sky src="bg/city.jpg" rotation="0 90 -5"></a-sky>
       <a-image src="img/compass_black.png" rotation="-90 0 0" scale="2 2 2"></a-image>
       <!-- <a-image id="sun" src="img/sun.png" rotation="-45.264 90.012 -93.449" scale="2.706 2.151 2.617" position="9.734 10.5 0" animation__sunset="property: position; startEvents: sunset; to: -10 11 0; dur: 10000" animation__sunrotation="property: rotation; startEvents: sunset; to: 45.264 90.012 -93.449; dur: 10000"></a-image> -->
       <a-sphere id="sun" color="#FFFF00" rotation="-45.264 90.012 -93.449" scale="0.7 0.7 0.7" position="9.734 10.5 0" animation__sunset="property: position; startEvents: sunset; to: -10 11 0; dur: 10000" animation__sunrotation="property: rotation; startEvents: sunset; to: 45.264 90.012 -93.449; dur: 10000"></a-sphere>
+
+      <a-plane src="img/stone.jpg" position="0 0 -1.609" rotation="-90.01166961505233 0 0" scale="18.039 10.125 10.125"></a-plane>
+
       <a-camera camera="userHeight: 1.6" look-controls>
         <a-plane id="scene4-intro" height="2" width="3" material="opacity:0;side:double;color:black" scale="0.19 0.197 0.528" position="0 0 -0.464">
           <a-entity geometry="primitive:plane" scale="2.8 1.855 1.383" position="0 0 0.02" material="shader:gif; src:url(img/intro/intros4.gif);" gif=""></a-entity>

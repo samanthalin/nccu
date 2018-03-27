@@ -61,6 +61,9 @@
         <a-plane id="scene2-intro" height="2" width="3" material="opacity:0;side:double;color:black" scale="0.19 0.197 0.528" position="0 0 -0.464">
           <a-entity geometry="primitive:plane" scale="2.8 1.855 1.383" position="0 0 0.02" material="shader:gif; src:url(img/intro/intros2.gif);" gif=""></a-entity>
       	</a-plane>
+      	<a-plane id="game-over" height="2" width="3" material="opacity:0;side:double;color:black" scale="0.19 0.197 0.528" position="0 0 -0.464">
+          <a-entity geometry="primitive:plane" scale="2.8 1.855 1.383" position="0 0 0.02" material="shader:gif; src:url(img/intro/intros2.gif);" gif=""></a-entity>
+      	</a-plane>
       	<a-entity id="scene2-huds" visible="false">
           <a-text id="scoreboard" value="5 / 5  LEFT" position="-1 1.5 -2.500" text="color:white;value:5 / 5  evil sun left;align:center"></a-text>
 
@@ -77,7 +80,7 @@
       	<a-video visible="false" src="#ai3-video" id="player" position="0 0 -2.500" rotation="-0.34377467707849396 -1.4896902673401404 -0.11459155902616465" scale="3 3 3"></a-video>
 			</a-camera>
     	<a-entity id="forest" poissondisc-forest>
-    		<a-sphere radius="0.6" id="real-sun" material="opacity:1;shader:flat;color:red;" light="type:point" static-body="sphereRadius:NaN" position="10 1.5 16"></a-sphere>
+    		<a-sphere radius="0.6" id="real-sun" material="opacity:1;shader:flat;color:#f7ff2d;" light="type:point" static-body="sphereRadius:NaN" position="10 1.5 16"></a-sphere>
     	</a-entity>
 		</a-scene>
 	</body>

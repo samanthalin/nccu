@@ -140,6 +140,8 @@ AFRAME.registerComponent("falling-electrons",{
 		var percent = document.getElementById("percent");
 		electron.addEventListener("hitstart",function(evt){
 			totalHits++;
+			var reacter = document.getElementById("reacter");
+			reacter.emit("electronHit");
 			this.setAttribute("visible","false");
 			var sc = totalScore + score;
 			if(sc > 100){

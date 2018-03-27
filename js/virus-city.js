@@ -37,6 +37,11 @@ AFRAME.registerComponent("virus-city",{
 			"rightHand" : document.getElementById("rightHand"),
       "leftHand" : document.getElementById("leftHand")
 		}
+		controllers.rightHand.addEventListener("menudown",function(){
+			document.getElementById("scene6-intro").setAttribute("visible", false);
+			var virus = document.querySelector("a-entity[data-index='0']");
+			virus.emit("spawnEnemy");
+		})
 		for(i = 0;i < this.data.smallEnemyCount; i++){
 			var virus = this.generateSmallEnemy(i);
 			this.viruses.push(virus);
@@ -119,12 +124,6 @@ AFRAME.registerComponent("virus-city",{
 				if(totalEnergy <= 0){
 					endGame(1);
 				}
-			})
-			
-			controllers.rightHand.addEventListener("menudown",function(){
-				document.getElementById("scene6-intro").setAttribute("visible", false);
-				var virus = document.querySelector("a-entity[data-index='0']");
-				virus.emit("spawnEnemy");
 			})
 		})
 	},

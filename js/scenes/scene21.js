@@ -1,4 +1,4 @@
-
+var introover = false;
 AFRAME.registerComponent("sun-shooting",{
   init : function(){
     this.totalSunShot = 9;
@@ -14,16 +14,28 @@ AFRAME.registerComponent("sun-shooting",{
       window.location = "scene3.html";
     }
     var realSun = document.getElementById("real-sun");
+    var scene2intro = document.getElementById("scene2-intro")
+    var gameOver = document.getElementById("game-over")
+    if(window.localStorage.getItem("dead1") == "true"){
+      realSun.setAttribute("color","red");
+      scene2intro.setAttribute("visible","false");
+      window.localStorage.removeItem("dead1")
+    }
     realSun.addEventListener("collide",function(){
-      window.location = "scene21.html";
+      window.localStorage.setItem("dead", "true");
+      gameOver.setAttribute("visible","true");
+      introover = true;
     })
   },
 
   manageIntro : function(evt){
-    var scene2intro = document.getElementById("scene2-intro"),
-        huds = document.getElementById("scene2-huds");
-    scene2intro.setAttribute("visible","false");
-    huds.setAttribute("visible","true");
+    if(introover == false){
+      var scene2intro = document.getElementById("scene2-intro"),
+          huds = document.getElementById("scene2-huds");
+      scene2intro.setAttribute("visible","false");
+      huds.setAttribute("visible","true");
+  }else{
+    window.location = "scene21.html"
   }
 })
 (function () {

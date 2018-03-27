@@ -1,3 +1,5 @@
+var totalscore = 0;
+var interval = null;
 AFRAME.registerComponent("roof-top",{
 	init : function(){
 		var controllers = {
@@ -28,6 +30,8 @@ AFRAME.registerComponent("roof-top",{
 					rotation.x = 0;
 				}
 				var panels = document.querySelectorAll(".panel");
+				var rightangle = document.getElementById("rightangle");
+				rightangle.setAttribute("value", rotation.x + " degrees");
 				panels.forEach(function(panel){
 					panel.setAttribute("rotation",rotation);
 				})
@@ -49,15 +53,30 @@ AFRAME.registerComponent("roof-top",{
 
 		controllers.rightHand.addEventListener("triggerdown",function(){
 			if(gameStarted){
+				console.log(rotation);
 				var sun = document.getElementById("sun");
 				scoreboardDsplayed = true;
-				score.x = Math.ceil(Math.abs(180 - rotation.x) * 8.333);
-				score.y = Math.ceil(Math.abs(180 - Math.abs(rotation.y - 105)) * 8.333);
+				score.x = Math.ceil(Math.abs(185 - rotation.x) * 8.333);
+				score.y = Math.ceil(Math.abs(180 - Math.abs(rotation.y - 0)) * 8.333);
 				score.total = score.x + score.y;
+				totalscore = score.total;
+				interval = setInterval(function(){
+					var sc = ((3000 - totalscore) * 100) / 3000;
+					totalscore = totalscore - 200;
+					var bar = document.getElementById("progress-bar");
+						bar.emit("updateBar",{
+							percentage : sc
+					})
+					if(totalscore <= 0){
+						clearInterval(interval);
+					}
+				},1000)
 				sun.addEventListener("animationcomplete",function(){
+					var rightangle = document.getElementById("rightangle");
 					var scoreboard = document.getElementById("scoreboard");
 					scoreboard.setAttribute("value","Total Energy Collected : " + score.total + " / 3000");
 					scoreboard.setAttribute("visible", true);
+					rightangle.setAttribute("visible", false);
 					var video = document.getElementById("drVideo");
 					var player = document.getElementById("player");
 					player.setAttribute("visible","true");

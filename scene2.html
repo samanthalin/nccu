@@ -40,7 +40,7 @@
 	      <audio id="draw_string" src="sounds/draw_string.mp3" >
 			</a-assets>
 			<a-sky src="bg/desert.jpg"></a-sky>
-			<a-entity ground position="4 0.1 5"></a-entity>
+			<!-- <a-entity ground position="4 0.1 5"></a-entity> -->
 
 			 <!-- Sounds -->
 	    <a-sound id="arrow_release_sound" src="#arrow_release"  poolsize="4"></a-sound>
@@ -62,18 +62,18 @@
           <a-entity geometry="primitive:plane" scale="2.8 1.855 1.383" position="0 0 0.02" material="shader:gif; src:url(img/intro/intros2.gif);" gif=""></a-entity>
       	</a-plane>
       	<a-plane id="game-over" height="2" width="3" material="opacity:0;side:double;color:black" visible="false" scale="0.19 0.197 0.528" position="0 0 -0.464">
-          <a-entity geometry="primitive:plane" scale="2.8 1.855 1.383" position="0 0 0.02" src="img/tryagain.png"></a-entity>
+          <a-image scale="2.8 1.855 1.383" position="0 0 0.02" src="img/tryagain.png"></a-image>
       	</a-plane>
       	<a-entity id="scene2-huds" visible="false">
-          <a-text id="scoreboard" value="5 / 5  LEFT" position="-1 1.5 -2.500" text="color:white;value:5 / 5  evil sun left;align:center"></a-text>
+          <a-text id="scoreboard" value="5 / 5  LEFT" position="-1 0.5 -2.500" text="color:white;value:5 / 5  evil sun left;align:center"></a-text>
           
-          <a-plane position="3.905 2.598 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
-            <a-text value="DATE : 7849/06/22" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+          <a-plane position="1.5 1.2 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+            <a-text value="DATE : 06/22" text="align:left;color:black;" position="-0.95 0 0"></a-text>
           </a-plane>
-          <a-plane position="3.905 2.105 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+          <a-plane position="1.5 0.7 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
             <a-text value="TIME : 12:00:10" text="align:left;color:black;" position="-0.95 0 0"></a-text>
           </a-plane>
-          <a-plane position="3 1.51 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+          <a-plane position="1.5 0.2 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
             <a-text value="25.04 N, 121.53 E" text="align:left;color:black;" position="-0.95 0 0"></a-text>
           </a-plane>
       	</a-entity>

@@ -34,8 +34,9 @@ AFRAME.registerComponent("sun-shooting",{
           huds = document.getElementById("scene2-huds");
       scene2intro.setAttribute("visible","false");
       huds.setAttribute("visible","true");
-  }else{
-    window.location = "scene21.html"
+    }else{
+      window.location = "scene21.html"
+    }
   }
 }
 })

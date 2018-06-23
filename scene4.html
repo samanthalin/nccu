@@ -59,7 +59,14 @@
         <a-text id="scoreboard" visible="false" position="0 0 -2.500" text="color:red;align:center"></a-text>
         <a-entity progress-bar position="0 -0.5 -2.500"></a-entity>
 
-        <a-text id="rightangle" visible="true" position="1.5 1.5 -3.500" text="color:red;align:center" value="30 degrees"></a-text>
+        <a-text id="rightangle" visible="true" position="1.5 0.7 -3.500" text="color:red;align:center" value="30 degrees"></a-text>
+
+        <a-plane position="-1.5 0.7 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+          <a-text value="DATE : 06/22" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+        </a-plane>
+        <a-plane position="-1.5 0.2 -3.435" material="opacity:0.5;emissive:#fff" height="100" width="100" geometry="height:0.43;width:1.97">
+          <a-text value="25.04 N, 121.53 E" text="align:left;color:black;" position="-0.95 0 0"></a-text>
+        </a-plane>
       </a-camera>
       <a-box id="teleport-range" position="0.159 0.05 0.048" material="visible:false" geometry="depth:4.53;height:0.01;width:4.67" scale="1.656 1 1.308"></a-box>
     </a-scene>

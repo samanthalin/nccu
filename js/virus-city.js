@@ -1,5 +1,5 @@
 var spawningAgent = null,
-		virusIndexes = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+		virusIndexes = [0,1,2,3,4,5,6,7,8],
 		totalHealth = 10,
 		gameRunning = true,
 		enemiesKilled = 0,
@@ -8,15 +8,15 @@ AFRAME.registerComponent("virus-city",{
 	schema : {
 		smallEnemyCount : {
 			type : "int",
-			default : 15
+			default : 5
 		},
 		mediumEnemyCount : {
 			type : "int",
-			default : 5
+			default : 3
 		},
 		bossCount : {
 			type : "int",
-			default : 3
+			default : 1
 		},
     width: {
         type: 'int',
@@ -72,7 +72,7 @@ AFRAME.registerComponent("virus-city",{
 				scene.removeChild(virus);
 				hurt.emit("player-hit");
 				var idx = parseInt(this.attributes["data-index"].value);
-				if(idx < 22 && gameRunning){
+				if(idx < 8 && gameRunning){
 					var newvirus = document.querySelector("a-entity[data-index='" + (idx + 1) + "']");
 					newvirus.emit("spawnEnemy");
 				}else{
@@ -112,7 +112,7 @@ AFRAME.registerComponent("virus-city",{
 					scene.removeChild(this);	
 					killedbar.setAttribute("value",enemiesKilled);
 					var idx = parseInt(this.attributes["data-index"].value);
-					if(idx < 22 && gameRunning){
+					if(idx < 8 && gameRunning){
 						var newvirus = document.querySelector("a-entity[data-index='" + (idx + 1) + "']");
 						newvirus.emit("spawnEnemy");
 					}else{

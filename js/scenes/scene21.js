@@ -37,6 +37,7 @@ AFRAME.registerComponent("sun-shooting",{
   }else{
     window.location = "scene21.html"
   }
+}
 })
 (function () {
   // switch to stereoscopic mode directly on page load, this needs to be after the a-scene loads.
